@@ -1,6 +1,7 @@
 import { H4 } from "components/Typography";
 import { Box, styled } from "@mui/material";
 import LazyImage from "components/LazyImage";
+import { useRouter } from "next/router";
 
 // custom styled components
 const Wrapper = styled(Box)(({ theme }) => ({
@@ -38,8 +39,14 @@ const CategoryTitle = styled(Box)({
 // ============================================================
 
 const CategoryCard1 = ({ image, title }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/products?category=${title}`);
+  };
+
   return (
-    <Wrapper position="relative">
+    <Wrapper position="relative" onClick={handleClick}>
       <LazyImage
         src={image}
         width={213}

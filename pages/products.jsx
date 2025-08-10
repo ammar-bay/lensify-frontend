@@ -23,8 +23,8 @@ import { useAppContext } from "contexts/AppContext";
 // const a = [1, 24];
 
 const ProductSearchResult = ({ products }) => {
-  // const router = useRouter();
-  // const searchQuery = router.query.search?.toLowerCase() || "";
+  const router = useRouter();
+  const searchCat = router.query.category?.toLowerCase() || "";
   const [view, setView] = useState("grid");
   const [filteredProducts, setFilteredProducts] = useState(products);
   const categories = [
@@ -43,7 +43,7 @@ const ProductSearchResult = ({ products }) => {
   const downMd = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const toggleView = useCallback((v) => () => setView(v), []);
   const [productFilters, setProductFilters] = useState({
-    category: [],
+    category: [searchCat],
     priceRange: { low: null, high: null },
     brands: [],
     colors: [],
@@ -57,7 +57,7 @@ const ProductSearchResult = ({ products }) => {
   // const [searchVal, setSearchVal] = useState(state);
 
   // console.log(productFilters)
-  console.log(state);
+  // console.log(state);
 
   useEffect(() => {
     // const q = searchQuery?.toLowerCase();

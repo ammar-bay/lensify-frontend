@@ -94,7 +94,9 @@ const ProductViewDialog = (props) => {
                 {product.imgGroup.map((item, index) => (
                   <BazaarImage
                     key={index}
-                    src={urlForImage(item).url()}
+                    src={
+                      typeof item === "string" ? item : urlForImage(item).url()
+                    }
                     sx={{
                       mx: "auto",
                       width: "100%",
