@@ -7,7 +7,7 @@ export default function MyDocument({ emotionStyleTags }) {
   return (
     <Html lang="en" className={openSans.className}>
       <Head>
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/logo.png" />
         <meta name="emotion-insertion-point" content="" />
         {emotionStyleTags}
       </Head>
