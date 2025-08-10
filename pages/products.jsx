@@ -24,7 +24,7 @@ import { useAppContext } from "contexts/AppContext";
 
 const ProductSearchResult = ({ products }) => {
   const router = useRouter();
-  const searchCat = router.query.category?.toLowerCase() || "";
+  const searchCat = router.query.category || "";
   const [view, setView] = useState("grid");
   const [filteredProducts, setFilteredProducts] = useState(products);
   const categories = [
@@ -43,7 +43,7 @@ const ProductSearchResult = ({ products }) => {
   const downMd = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const toggleView = useCallback((v) => () => setView(v), []);
   const [productFilters, setProductFilters] = useState({
-    category: [],
+    category: [searchCat],
     priceRange: { low: null, high: null },
     brands: [],
     colors: [],
@@ -54,13 +54,8 @@ const ProductSearchResult = ({ products }) => {
     newarrival: null,
   });
   const [sort, setSort] = useState("date");
-  // const [searchVal, setSearchVal] = useState(state);
-
-  // console.log(productFilters)
-  // console.log(state);
 
   useEffect(() => {
-    // const q = searchQuery?.toLowerCase();
     const q = state?.searchVal?.toLowerCase();
     const {
       category,
