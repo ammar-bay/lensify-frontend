@@ -28,7 +28,7 @@ const Section7 = () => {
         Free shipping on orders over $99
       </Paragraph>
 
-      <Button variant="contained" size="large" color="dark">
+      <Button variant="contained" size="large" color="dark" href="/products">
         Shop Now
       </Button>
     </FlexRowCenter>
