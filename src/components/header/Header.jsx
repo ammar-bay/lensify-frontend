@@ -100,11 +100,7 @@ const Header = ({ isFixed, className, searchInput }) => {
 
             {/* MIDDLE CONTENT - LOGO */}
             <Link href="/">
-              <Image
-                height={44}
-                src="/assets/images/bazaar-black-sm.svg"
-                alt="logo"
-              />
+              <Image height={70} src="/assets/images/logo.png" alt="logo" />
             </Link>
 
             {/* RIGHT CONTENT - LOGIN, CART, SEARCH BUTTON */}
@@ -118,7 +114,7 @@ const Header = ({ isFixed, className, searchInput }) => {
               </Box>
 
               <Box component={IconButton} onClick={toggleSidenav}>
-                <Badge badgeContent={state.cart.length} color="primary">
+                <Badge badgeContent={state?.cart?.length} color="primary">
                   <Icon.CartBag sx={ICON_STYLE} />
                 </Badge>
               </Box>
@@ -166,7 +162,7 @@ const Header = ({ isFixed, className, searchInput }) => {
         {/* LEFT CONTENT - LOGO AND CATEGORY */}
         <FlexBox mr={2} minWidth="170px" alignItems="center">
           <Link href="/">
-            <Image height={44} src="/assets/images/logo2.svg" alt="logo" />
+            <Image height={70} src="/assets/images/logo.png" alt="logo" />
           </Link>
 
           {/* SHOW DROP DOWN CATEGORY BUTTON WHEN HEADER FIXED */}
@@ -189,16 +185,16 @@ const Header = ({ isFixed, className, searchInput }) => {
 
         {/* LOGIN AND CART BUTTON */}
         <FlexBox gap={1.5} alignItems="center">
-          <Box
+          {/* <Box
             component={IconButton}
             p={1.25}
             bgcolor="grey.200"
             onClick={toggleDialog}
           >
             <PersonOutline />
-          </Box>
+          </Box> */}
 
-          <Badge badgeContent={state.cart.length} color="primary">
+          <Badge badgeContent={state?.cart?.length} color="primary">
             <Box
               p={1.25}
               bgcolor="grey.200"

@@ -47,7 +47,7 @@ const ProductCard9 = (props) => {
   };
   return (
     <Wrapper>
-      <IconButton
+      {/* <IconButton
         size="small"
         sx={{
           position: "absolute",
@@ -56,7 +56,7 @@ const ProductCard9 = (props) => {
         }}
       >
         <FavoriteBorder fontSize="small" />
-      </IconButton>
+      </IconButton> */}
 
       <Grid container spacing={1}>
         <Grid item sm={3} xs={12}>
@@ -94,16 +94,16 @@ const ProductCard9 = (props) => {
               </H5>
             </Link>
 
-            <Rating value={rating || 0} color="warn" readOnly />
+            {/* <Rating value={rating || 0} color="warn" readOnly /> */}
 
             <FlexBox mt={1} mb={2} alignItems="center">
               <H5 fontWeight={600} color="primary.main" mr={1}>
-                {currency(price)}
+                {off ? calculateDiscount(price, off) : currency(price)}
               </H5>
 
               {off && (
                 <Span fontWeight="600" color="grey.600">
-                  <del>{calculateDiscount(price, off)}</del>
+                  <del>{currency(price)}</del>
                 </Span>
               )}
             </FlexBox>

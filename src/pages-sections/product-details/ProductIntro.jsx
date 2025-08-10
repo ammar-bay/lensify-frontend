@@ -1,34 +1,64 @@
-import Link from "next/link";
-import { useState } from "react";
-import { Add, Remove } from "@mui/icons-material";
-import { Avatar, Box, Button, Chip, Grid } from "@mui/material";
+import { Add, ContentPasteOffSharp, Remove } from "@mui/icons-material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  FormControlLabel,
+  Grid,
+} from "@mui/material";
 import LazyImage from "components/LazyImage";
-import BazaarRating from "components/BazaarRating";
-import { H1, H2, H3, H6 } from "components/Typography";
+import { H1, H2, H3, H6, Span } from "components/Typography";
 import { useAppContext } from "contexts/AppContext";
-import { FlexBox, FlexRowCenter } from "../../components/flex-box";
 import { currency } from "lib";
-import productVariants from "data/product-variants";
+import { useEffect, useState } from "react";
+import { FlexBox, FlexRowCenter } from "../../components/flex-box";
+import { urlForImage } from "../../../sanity/lib/image";
+import PrescriptionDetails, { presOptions } from "./PrescriptionDetails";
+import { useSnackbar } from "notistack";
 
 // ================================================================
 
 // ================================================================
 
 const ProductIntro = ({ product }) => {
-  const { id, price, title, images, slug, thumbnail } = product;
+  const { _id: id, price, name: title, images, slug, thumbnail } = product;
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectVariants, setSelectVariants] = useState({
-    option: "option 1",
-    type: "type 1",
-  });
+  const [selectedCat, setSelectedCat] = useState();
+  const [selectedType, setSelectedType] = useState();
+  const [productPrice, setProductPrice] = useState(price);
+  const [laserToggel, setLaserToggel] = useState(false);
+  const [presDetails, setPresDetails] = useState({ type: presOptions[0] });
 
-  // HANDLE CHAMGE TYPE AND OPTIONS
-  const handleChangeVariant = (variantName, value) => () => {
-    setSelectVariants((state) => ({
-      ...state,
-      [variantName.toLowerCase()]: value,
-    }));
+  const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (!state?.cart) return;
+
+    // Find this product in the cart
+    const cartItem = state.cart.find((item) => item.id === id);
+
+    // console.log(cartItem);
+
+    if (cartItem) {
+      // Restore persisted values
+      setSelectedCat(cartItem.lensCat || undefined);
+      setSelectedType(cartItem.lensType || undefined);
+      setProductPrice(cartItem.price || price);
+      setLaserToggel(cartItem.laserToggel || false);
+      setPresDetails(cartItem.presDetails || { type: presOptions[0] });
+    }
+  }, [state]);
+
+  // HANDLE CHANGE TYPE AND OPTIONS
+  const handleChangeCat = (value) => () => {
+    setSelectedCat((prevVal) => (prevVal === value ? null : value));
+  };
+
+  const handleChangeType = (value) => () => {
+    setSelectedType((prevVal) => (prevVal === value ? null : value));
   };
 
   // CHECK PRODUCT EXIST OR NOT IN THE CART
@@ -38,19 +68,55 @@ const ProductIntro = ({ product }) => {
   const handleImageClick = (ind) => () => setSelectedImage(ind);
 
   // HANDLE CHANGE CART
-  const handleCartAmountChange = (amount) => () => {
+  const handleCartAmountChange = (amount, increasing) => () => {
+    console.log(amount);
+    if (!selectedType && increasing)
+      return enqueueSnackbar("Select a Lens Type", { variant: "error" });
+
+    if (!selectedCat && increasing)
+      return enqueueSnackbar("Select a Lens Category", { variant: "error" });
+
+    if (!product.instock && increasing)
+      return enqueueSnackbar("This Item is Out of Stock", { variant: "error" });
+
+    if (
+      increasing &&
+      selectedType === lensType[1] &&
+      ((presDetails.type === presOptions[0] &&
+        (!presDetails.sphere || !presDetails.axis || !presDetails.cylinder)) ||
+        (presDetails.type === presOptions[1] && !presDetails?.prescriptionFile))
+    )
+      return enqueueSnackbar("Please Fill the prescription details correctly.");
+
     dispatch({
       type: "CHANGE_CART_AMOUNT",
       payload: {
-        price,
+        presDetails,
+        laserToggel,
+        lensType: selectedType,
+        lensCat: selectedCat,
+        price: productPrice,
         qty: amount,
         name: title,
-        imgUrl: thumbnail,
+        imgUrl: urlForImage(thumbnail).url(),
         id,
-        slug,
+        slug: slug.current,
       },
     });
   };
+
+  useEffect(() => {
+    setProductPrice(
+      price +
+        (lensCategory.find((cat) => cat.label == selectedCat)?.price || 0) +
+        (lensType.find((type) => type.label == selectedType)?.price || 0)
+    );
+  }, [selectedType, selectedCat]);
+
+  const handleLaserToggle = () => {
+    setLaserToggel((prevVal) => !prevVal);
+  };
+
   return (
     <Box width="100%">
       <Grid container spacing={3} justifyContent="space-around">
@@ -61,15 +127,16 @@ const ProductIntro = ({ product }) => {
               width={300}
               height={300}
               loading="eager"
-              src={product.images[selectedImage]}
+              src={urlForImage(product.images[selectedImage]).url()}
               sx={{
                 objectFit: "contain",
+                borderRadius: "5px",
               }}
             />
           </FlexBox>
 
           <FlexBox overflow="auto">
-            {images.map((url, ind) => (
+            {product.images.map((url, ind) => (
               <FlexRowCenter
                 key={ind}
                 width={64}
@@ -83,16 +150,17 @@ const ProductIntro = ({ product }) => {
                   cursor: "pointer",
                 }}
                 onClick={handleImageClick(ind)}
-                mr={ind === images.length - 1 ? "auto" : "10px"}
+                mr={ind === product.images.length - 1 ? "auto" : "10px"}
                 borderColor={
                   selectedImage === ind ? "primary.main" : "grey.400"
                 }
               >
                 <Avatar
-                  src={url}
+                  src={urlForImage(url).url()}
                   variant="square"
                   sx={{
                     height: 40,
+                    borderRadius: "5px",
                   }}
                 />
               </FlexRowCenter>
@@ -103,12 +171,14 @@ const ProductIntro = ({ product }) => {
         <Grid item md={6} xs={12} alignItems="center">
           <H1 mb={1}>{title}</H1>
 
-          <FlexBox alignItems="center" mb={1}>
-            <Box>Brand:</Box>
-            <H6>Xiaomi</H6>
-          </FlexBox>
+          {product?.brand?.name && (
+            <FlexBox alignItems="center" mb={1}>
+              <Box>Brand: </Box>
+              <H6>{product?.brand?.name}</H6>
+            </FlexBox>
+          )}
 
-          <FlexBox alignItems="center" mb={2}>
+          {/* <FlexBox alignItems="center" mb={2}>
             <Box lineHeight="1">Rated:</Box>
             <Box mx={1} lineHeight="1">
               <BazaarRating
@@ -119,37 +189,71 @@ const ProductIntro = ({ product }) => {
               />
             </Box>
             <H6 lineHeight="1">(50)</H6>
-          </FlexBox>
+          </FlexBox> */}
+          <Box mb={2}>
+            <H6 mb={1}>Lens Category</H6>
 
-          {productVariants.map((variant) => (
-            <Box key={variant.id} mb={2}>
-              <H6 mb={1}>{variant.title}</H6>
+            {lensCategory.map((cat) => (
+              <Chip
+                key={cat.label}
+                label={cat.label}
+                onClick={handleChangeCat(cat.label)}
+                sx={{
+                  borderRadius: "4px",
+                  mr: 1,
+                  mb: 1,
+                  cursor: "pointer",
+                }}
+                color={selectedCat === cat.label ? "primary" : "default"}
+              />
+            ))}
+          </Box>
 
-              {variant.values.map(({ id, value }) => (
-                <Chip
-                  key={id}
-                  label={value}
-                  onClick={handleChangeVariant(variant.title, value)}
-                  sx={{
-                    borderRadius: "4px",
-                    mr: 1,
-                    cursor: "pointer",
-                  }}
-                  color={
-                    selectVariants[variant.title.toLowerCase()] === value
-                      ? "primary"
-                      : "default"
-                  }
-                />
-              ))}
-            </Box>
-          ))}
+          <Box mb={2}>
+            <H6 mb={1}>Lens Type</H6>
+
+            {lensType.map((type) => (
+              <Chip
+                key={type.label}
+                label={type.label}
+                onClick={handleChangeType(type.label)}
+                sx={{
+                  borderRadius: "4px",
+                  mr: 1,
+                  cursor: "pointer",
+                }}
+                color={selectedType === type.label ? "primary" : "default"}
+              />
+            ))}
+          </Box>
+
+          {selectedType == lensType[1].label && (
+            <PrescriptionDetails
+              setPresDetails={setPresDetails}
+              presDetails={presDetails}
+            />
+          )}
+
+          <FormControlLabel
+            sx={{ display: "flex" }}
+            label={<Span>{"Add Laser + Card"}</Span>}
+            control={
+              <Checkbox
+                size="medium"
+                color="primary"
+                checked={laserToggel}
+                onChange={() => handleLaserToggle()}
+              />
+            }
+          />
 
           <Box pt={1} mb={3}>
             <H2 color="primary.main" mb={0.5} lineHeight="1">
-              {currency(price)}
+              {currency(productPrice)}
             </H2>
-            <Box color="inherit">Stock Available</Box>
+            <Box color={product.instock ? "inherit" : "red"}>
+              {product.instock ? "Stock Available" : "Out of Stock"}
+            </Box>
           </Box>
 
           {!cartItem?.qty ? (
@@ -174,7 +278,7 @@ const ProductIntro = ({ product }) => {
                 }}
                 color="primary"
                 variant="outlined"
-                onClick={handleCartAmountChange(cartItem?.qty - 1)}
+                onClick={handleCartAmountChange(cartItem?.qty - 1, true)}
               >
                 <Remove fontSize="small" />
               </Button>
@@ -190,22 +294,48 @@ const ProductIntro = ({ product }) => {
                 }}
                 color="primary"
                 variant="outlined"
-                onClick={handleCartAmountChange(cartItem?.qty + 1)}
+                onClick={handleCartAmountChange(cartItem?.qty + 1, false)}
               >
                 <Add fontSize="small" />
               </Button>
             </FlexBox>
           )}
 
-          <FlexBox alignItems="center" gap={1} mb={2}>
+          {/* <FlexBox alignItems="center" gap={1} mb={2}>
             <Box>Sold By:</Box>
             <Link href="/shops/scarlett-beauty">
               <H6>Mobile Store</H6>
             </Link>
-          </FlexBox>
+          </FlexBox> */}
         </Grid>
       </Grid>
     </Box>
   );
 };
+
+const lensCategory = [
+  {
+    label: "Screen Lens",
+    price: 1200,
+  },
+  {
+    label: "Transition Lens",
+    price: 1400,
+  },
+  {
+    label: "Screen + Transition",
+    price: 2200,
+  },
+];
+const lensType = [
+  {
+    label: "No Eyesight",
+    price: 0,
+  },
+  {
+    label: "Eyesight",
+    price: 1000,
+  },
+];
+
 export default ProductIntro;

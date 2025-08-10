@@ -78,10 +78,10 @@ const ProductCard1 = ({
   title,
   price,
   imgUrl,
-  rating = 5,
-  hideRating,
+  // rating = 5,
+  // hideRating,
   hoverEffect,
-  discount = 5,
+  discount,
   showProductSize,
 }) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -106,6 +106,7 @@ const ProductCard1 = ({
         variant: "success",
       });
   };
+
   return (
     <StyledBazaarCard hoverEffect={hoverEffect}>
       <ImageWrapper>
@@ -118,13 +119,13 @@ const ProductCard1 = ({
             <RemoveRedEye color="disabled" fontSize="small" />
           </IconButton>
 
-          <IconButton onClick={toggleIsFavorite}>
+          {/* <IconButton onClick={toggleIsFavorite}>
             {isFavorite ? (
               <Favorite color="primary" fontSize="small" />
             ) : (
               <FavoriteBorder fontSize="small" color="disabled" />
             )}
-          </IconButton>
+          </IconButton> */}
         </HoverIconWrapper>
 
         <Link href={`/product/${slug}`}>
@@ -166,9 +167,9 @@ const ProductCard1 = ({
               </H3>
             </Link>
 
-            {!hideRating && (
+            {/* {!hideRating && (
               <BazaarRating value={rating || 0} color="warn" readOnly />
-            )}
+            )} */}
 
             {showProductSize && (
               <Span color="grey.600" mb={1} display="block">
@@ -178,10 +179,12 @@ const ProductCard1 = ({
 
             <FlexBox alignItems="center" gap={1} mt={0.5}>
               <Box fontWeight="600" color="primary.main">
-                {calculateDiscount(price, discount)}
+                {discount
+                  ? calculateDiscount(price, discount)
+                  : currency(price)}
               </Box>
 
-              {!!discount && (
+              {discount && (
                 <Box color="grey.600" fontWeight="600">
                   <del>{currency(price)}</del>
                 </Box>

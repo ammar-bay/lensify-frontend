@@ -1,14 +1,15 @@
-import Link from "next/link";
-import { useState } from "react";
-import { useSnackbar } from "notistack";
-import { Box, Button, IconButton, Rating, styled } from "@mui/material";
 import { AddShoppingCart, Favorite, FavoriteBorder } from "@mui/icons-material";
-import { currency } from "lib";
-import LazyImage from "components/LazyImage";
+import { Box, Button, IconButton, Rating, styled } from "@mui/material";
 import { FlexRowCenter } from "components/flex-box";
-import { H4, Paragraph, Small } from "components/Typography";
-import { useAppContext } from "contexts/AppContext";
+import LazyImage from "components/LazyImage";
 import ProductViewDialog from "components/products/ProductViewDialog";
+import { H4, Paragraph } from "components/Typography";
+import { useAppContext } from "contexts/AppContext";
+import { currency } from "lib";
+import Link from "next/link";
+import { useSnackbar } from "notistack";
+import { useState } from "react";
+import { urlForImage } from "../../../sanity/lib/image";
 // custom styled components
 const Card = styled(Box)({
   ":hover": {
@@ -63,7 +64,9 @@ const ProductCard18 = ({ product }) => {
   const { state, dispatch } = useAppContext();
   const [openDialog, setOpenDialog] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const cartItem = state.cart.find((item) => item.slug === product.slug);
+  const cartItem = state.cart.find(
+    (item) => item.slug === product.slug.current
+  );
 
   // handle favourite
   const handleFavorite = () => setIsFavorite((fav) => !fav);
@@ -72,10 +75,10 @@ const ProductCard18 = ({ product }) => {
   const handleAddToCart = (product) => () => {
     const payload = {
       id: product.id,
-      slug: product.slug,
-      name: product.title,
+      slug: product.slug.current,
+      name: product.name,
       price: product.price,
-      imgUrl: product.thumbnail,
+      imgUrl: urlForImage(product.thumbnail).url(),
       qty: (cartItem?.qty || 0) + 1,
     };
     dispatch({
@@ -86,16 +89,18 @@ const ProductCard18 = ({ product }) => {
       variant: "success",
     });
   };
+
   return (
     <Card>
       <CardMedia>
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/product/${product.slug.current}`}>
           <LazyImage
             width={300}
             height={300}
+            style={{ borderRadius: "5px" }}
             alt="category"
             className="product-img"
-            src={product.thumbnail}
+            src={urlForImage(product.thumbnail).url()}
           />
         </Link>
 
@@ -106,13 +111,13 @@ const ProductCard18 = ({ product }) => {
           <AddShoppingCart color="disabled" fontSize="small" />
         </AddToCartButton>
 
-        <FavouriteButton className="product-actions" onClick={handleFavorite}>
+        {/* <FavouriteButton className="product-actions" onClick={handleFavorite}>
           {isFavorite ? (
             <Favorite color="primary" fontSize="small" />
           ) : (
             <FavoriteBorder color="disabled" fontSize="small" />
           )}
-        </FavouriteButton>
+        </FavouriteButton> */}
 
         <QuickViewButton
           fullWidth
@@ -131,23 +136,25 @@ const ProductCard18 = ({ product }) => {
         handleCloseDialog={() => setOpenDialog(false)}
         product={{
           id: product.id,
-          slug: product.slug,
-          title: product.title,
+          slug: product.slug.current,
+          title: product.name,
           price: product.price,
           imgGroup: product.images,
+          description: product.description,
+          categories: product.categories,
         }}
       />
 
       <Box p={1} textAlign="center">
-        {product.categories.length > 0 && (
-          <Small color="grey.500">{product.categories[0]}</Small>
-        )}
-        <Paragraph fontWeight="bold">{product.title}</Paragraph>
+        {/* {product.categories.length > 0 && (
+          <Small color="grey.500">{product.categories[0].name}</Small>
+        )} */}
+        <Paragraph fontWeight="bold">{product.name}</Paragraph>
         <H4 fontWeight={700} py={0.5}>
           {currency(product.price)}
         </H4>
 
-        <FlexRowCenter gap={1}>
+        {/* <FlexRowCenter gap={1}>
           <Rating
             name="read-only"
             value={4}
@@ -159,7 +166,7 @@ const ProductCard18 = ({ product }) => {
           <Small fontWeight={600} color="grey.500">
             ({product.reviews.length} Reviews)
           </Small>
-        </FlexRowCenter>
+        </FlexRowCenter> */}
       </Box>
     </Card>
   );

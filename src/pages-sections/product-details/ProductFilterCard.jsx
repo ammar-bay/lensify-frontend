@@ -4,146 +4,133 @@ import {
   Checkbox,
   Divider,
   FormControlLabel,
-  Rating,
   TextField,
 } from "@mui/material";
-import Accordion from "components/accordion/Accordion";
 import { FlexBetween, FlexBox } from "components/flex-box";
-import { H5, H6, Paragraph, Span } from "components/Typography";
-import AccordionHeader from "components/accordion/AccordionHeader";
-const ProductFilterCard = () => {
+import { H5, H6, Span } from "components/Typography";
+
+const ProductFilterCard = ({
+  categories,
+  brands,
+  setProductFilters,
+  productFilters,
+  colorList
+}) => {
+  const toggleArrayValue = (field, value) => {
+    setProductFilters((prev) => ({
+      ...prev,
+      [field]: prev[field].includes(value)
+        ? prev[field].filter((v) => v !== value)
+        : [...prev[field], value],
+    }));
+  };
+
+  const updatePrice = (key, val) => {
+    setProductFilters((prev) => ({
+      ...prev,
+      priceRange: { ...prev.priceRange, [key]: val ? +val : null },
+    }));
+  };
+
+  const toggleBooleanField = (field) => {
+    setProductFilters((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
   return (
-    <Card
-      sx={{
-        p: "18px 27px",
-        overflow: "auto",
-      }}
-      elevation={1}
-    >
-      {/* CATEGORY VARIANT FILTER */}
+    <Card sx={{ p: "18px 27px", overflow: "auto" }} elevation={1}>
+      {/* CATEGORY FILTER */}
       <H6 mb={1.25}>Categories</H6>
+      {categories?.map((item) => (
+        <FormControlLabel
+          key={item}
+          sx={{ display: "flex" }}
+          label={<Span>{item}</Span>}
+          control={
+            <Checkbox
+              size="small"
+              color="secondary"
+              checked={productFilters.category.includes(item)}
+              onChange={() => toggleArrayValue("category", item)}
+            />
+          }
+        />
+      ))}
 
-      {categoryList.map((item) =>
-        item.subCategories ? (
-          <Accordion key={item.title} expanded>
-            <AccordionHeader px={0} py={0.75} color="grey.600">
-              <Span
-                sx={{
-                  cursor: "pointer",
-                  mr: "9px",
-                }}
-              >
-                {item.title}
-              </Span>
-            </AccordionHeader>
+      <Divider sx={{ mt: 2, mb: 3 }} />
 
-            {item.subCategories.map((name) => (
-              <Paragraph
-                pl="22px"
-                py={0.75}
-                key={name}
-                fontSize="14px"
-                color="grey.600"
-                sx={{
-                  cursor: "pointer",
-                }}
-              >
-                {name}
-              </Paragraph>
-            ))}
-          </Accordion>
-        ) : (
-          <Paragraph
-            py={0.75}
-            fontSize="14px"
-            color="grey.600"
-            key={item.title}
-            className="cursor-pointer"
-          >
-            {item.title}
-          </Paragraph>
-        )
-      )}
-
-      <Divider
-        sx={{
-          mt: 2,
-          mb: 3,
-        }}
-      />
-
-      {/* PRICE VARIANT FILTER */}
+      {/* PRICE FILTER */}
       <H6 mb={2}>Price Range</H6>
       <FlexBetween>
-        <TextField placeholder="0" type="number" size="small" fullWidth />
+        <TextField
+          placeholder="0"
+          type="number"
+          size="small"
+          fullWidth
+          value={productFilters.priceRange.low || ""}
+          onChange={(e) => updatePrice("low", e.target.value)}
+        />
         <H5 color="grey.600" px={1}>
           -
         </H5>
-        <TextField placeholder="250" type="number" size="small" fullWidth />
+        <TextField
+          placeholder="250"
+          type="number"
+          size="small"
+          fullWidth
+          value={productFilters.priceRange.high || ""}
+          onChange={(e) => updatePrice("high", e.target.value)}
+        />
       </FlexBetween>
 
-      <Divider
-        sx={{
-          my: 3,
-        }}
-      />
+      <Divider sx={{ my: 3 }} />
 
-      {/* BRAND VARIANT FILTER */}
+      {/* BRAND FILTER */}
       <H6 mb={2}>Brands</H6>
-      {brandList.map((item) => (
+      {brands?.map((item) => (
         <FormControlLabel
           key={item}
-          sx={{
-            display: "flex",
-          }}
-          label={<Span color="inherit">{item}</Span>}
-          control={<Checkbox size="small" color="secondary" />}
+          sx={{ display: "flex" }}
+          label={<Span>{item}</Span>}
+          control={
+            <Checkbox
+              size="small"
+              color="secondary"
+              checked={productFilters.brands.includes(item)}
+              onChange={() => toggleArrayValue("brands", item)}
+            />
+          }
         />
       ))}
 
-      <Divider
-        sx={{
-          my: 3,
-        }}
-      />
+      <Divider sx={{ my: 3 }} />
 
-      {otherOptions.map((item) => (
-        <FormControlLabel
-          key={item}
-          sx={{
-            display: "flex",
-          }}
-          label={<Span color="inherit">{item}</Span>}
-          control={<Checkbox size="small" color="secondary" />}
-        />
-      ))}
+      {/* OTHER OPTIONS */}
+      <H6 mb={2}>Other Options</H6>
+      {otherOptions.map((item) => {
+        const key = item.toLowerCase().replace(/\s/g, "");
+        return (
+          <FormControlLabel
+            key={item}
+            sx={{ display: "flex" }}
+            label={<Span>{item}</Span>}
+            control={
+              <Checkbox
+                size="small"
+                color="secondary"
+                checked={!!productFilters[key]}
+                onChange={() => toggleBooleanField(key)}
+              />
+            }
+          />
+        );
+      })}
 
-      <Divider
-        sx={{
-          my: 3,
-        }}
-      />
+      <Divider sx={{ my: 3 }} />
 
-      {/* RATINGS FILTER */}
-      <H6 mb={2}>Ratings</H6>
-      {[5, 4, 3, 2, 1].map((item) => (
-        <FormControlLabel
-          control={<Checkbox size="small" color="secondary" />}
-          label={<Rating size="small" value={item} color="warn" readOnly />}
-          sx={{
-            display: "flex",
-          }}
-          key={item}
-        />
-      ))}
-
-      <Divider
-        sx={{
-          my: 3,
-        }}
-      />
-
-      {/* COLORS VARIANT FILTER */}
+      {/* COLORS MULTI SELECT */}
       <H6 mb={2}>Colors</H6>
       <FlexBox mb={2} flexWrap="wrap" gap={1}>
         {colorList.map((item) => (
@@ -156,36 +143,23 @@ const ProductFilterCard = () => {
               bgcolor: item,
               cursor: "pointer",
               borderRadius: "50%",
+              border: productFilters.colors.includes(item)
+                ? "2px solid #d24057"
+                : "none",
             }}
+            onClick={() => toggleArrayValue("colors", item)}
           />
         ))}
       </FlexBox>
     </Card>
   );
 };
-const categoryList = [
-  {
-    title: "Bath Preparations",
-    subCategories: ["Bubble Bath", "Bath Capsules", "Others"],
-  },
-  {
-    title: "Eye Makeup Preparations",
-  },
-  {
-    title: "Fragrance",
-  },
-  {
-    title: "Hair Preparations",
-  },
-];
-const brandList = ["Macc", "Karts", "Baals", "Bukks", "Luasis"];
-const otherOptions = ["On Sale", "In Stock", "Featured"];
-const colorList = [
-  "#1C1C1C",
-  "#FF7A7A",
-  "#FFC672",
-  "#84FFB5",
-  "#70F6FF",
-  "#6B7AFF",
+
+const otherOptions = [
+  "On Sale",
+  "In Stock",
+  "Featured",
+  "Best Selling",
+  "New Arrival",
 ];
 export default ProductFilterCard;

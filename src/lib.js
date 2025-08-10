@@ -59,7 +59,7 @@ function calculateDiscount(price, discount) {
  */
 
 function currency(price, fraction = 2) {
-  const formatCurrency = currencyJs(price).format({
+  const formatCurrency = currencyJs(price, {symbol: "Rs "}).format({
     precision: fraction,
   });
   return formatCurrency;

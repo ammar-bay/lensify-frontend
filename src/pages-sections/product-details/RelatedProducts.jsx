@@ -1,6 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import ProductCard1 from "components/product-cards/ProductCard1";
 import { H3 } from "components/Typography";
+import { urlForImage } from "../../../sanity/lib/image";
 // ===================================================
 
 const RelatedProducts = ({ productsData }) => {
@@ -12,12 +13,12 @@ const RelatedProducts = ({ productsData }) => {
         {productsData.map((item, ind) => (
           <Grid item lg={3} md={4} sm={6} xs={12} key={ind}>
             <ProductCard1
-              id={item.id}
-              slug={item.slug}
-              title={item.title}
+              id={item._id}
+              slug={item.slug.current}
+              title={item.name}
               price={item.price}
-              rating={item.rating}
-              imgUrl={item.thumbnail}
+              // rating={item.rating}
+              imgUrl={urlForImage(item.thumbnail).url()}
               discount={item.discount}
               hoverEffect
             />

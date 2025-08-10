@@ -36,7 +36,12 @@ const Footer1 = () => {
             <Grid container spacing={3}>
               <Grid item lg={4} md={6} sm={6} xs={12}>
                 <Link href="/">
-                  <Image mb={2.5} src="/assets/images/logo.svg" alt="logo" />
+                  <Image
+                    height={100}
+                    width={100}
+                    src="/assets/images/logo.png"
+                    alt="logo"
+                  />
                 </Link>
 
                 <Paragraph mb={2.5} color="grey.500">
@@ -45,7 +50,7 @@ const Footer1 = () => {
                   cursus. Erat et lectus vel ut sollicitudin elit at amet.
                 </Paragraph>
 
-                <AppStore />
+                {/* <AppStore /> */}
               </Grid>
 
               <Grid item lg={2} md={6} sm={6} xs={12}>
@@ -164,18 +169,18 @@ const iconList = [
     icon: Facebook,
     url: "https://www.facebook.com/UILibOfficial",
   },
-  {
-    icon: Twitter,
-    url: "https://twitter.com/uilibofficial",
-  },
-  {
-    icon: Youtube,
-    url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg",
-  },
-  {
-    icon: Google,
-    url: "https://www.google.com/search?q=ui-lib.com",
-  },
+  // {
+  //   icon: Twitter,
+  //   url: "https://twitter.com/uilibofficial",
+  // },
+  // {
+  //   icon: Youtube,
+  //   url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg",
+  // },
+  // {
+  //   icon: Google,
+  //   url: "https://www.google.com/search?q=ui-lib.com",
+  // },
   {
     icon: Instagram,
     url: "https://www.instagram.com/uilibofficial/",

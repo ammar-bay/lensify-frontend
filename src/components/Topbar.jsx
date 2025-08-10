@@ -129,7 +129,7 @@ const Topbar = ({ bgColor }) => {
         </FlexBetween>
 
         <FlexBox className="topbarRight" alignItems="center">
-          <BazaarMenu
+          {/* <BazaarMenu
             handler={
               <TouchRipple className="handler marginRight">
                 <Span className="menuTitle">
@@ -148,7 +148,7 @@ const Topbar = ({ bgColor }) => {
                 <Span className="menuTitle">{item.title}</Span>
               </MenuItem>
             ))}
-          </BazaarMenu>
+          </BazaarMenu> */}
 
           <FlexBox alignItems="center" gap={1.5}>
             {socialLinks.map(({ id, Icon, url }) => (
@@ -167,11 +167,11 @@ const Topbar = ({ bgColor }) => {
   );
 };
 const socialLinks = [
-  {
-    id: 1,
-    Icon: Twitter,
-    url: "#",
-  },
+  // {
+  //   id: 1,
+  //   Icon: Twitter,
+  //   url: "#",
+  // },
   {
     id: 2,
     Icon: Facebook,

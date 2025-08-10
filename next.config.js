@@ -8,6 +8,9 @@ module.exports = {
     theme: "DEFAULT",
     currency: "USD",
   },
+  images: {
+    domains: ["cdn.sanity.io"],
+  },
 };
 
 // const withBundleAnalyzer = require("@next/bundle-analyzer")({

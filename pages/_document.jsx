@@ -12,7 +12,11 @@ export default function MyDocument({ emotionStyleTags }) {
         {emotionStyleTags}
       </Head>
 
-      <body>
+      <body
+        style={{
+          minHeight: "100vh",
+        }}
+      >
         <Main />
         <NextScript />
       </body>

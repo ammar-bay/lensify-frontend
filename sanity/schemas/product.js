@@ -1,5 +1,3 @@
-// schemas/product.js
-
 export default {
   name: "products",
   title: "Products",
@@ -18,12 +16,7 @@ export default {
         source: "name",
         maxLength: 100,
       },
-      validation: (Rule) => Rule.required().error('This field is required'),
-    },
-    {
-      name: "description",
-      title: "Description",
-      type: "text",
+      validation: (Rule) => Rule.required().error("This field is required"),
     },
     {
       name: "price",
@@ -32,18 +25,12 @@ export default {
       validation: (Rule) => Rule.min(0),
     },
     {
-      name: "image",
-      title: "Product Image",
+      name: "thumbnail",
+      title: "Thumbnail",
       type: "image",
       options: {
         hotspot: true,
       },
-    },
-    {
-      name: "category",
-      title: "Category",
-      type: "reference",
-      to: [{ type: "category" }],
     },
     {
       name: "images",
@@ -53,6 +40,41 @@ export default {
       options: {
         hotspot: true,
       },
+    },
+    {
+      name: "categories",
+      title: "Categories",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+    },
+    {
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
+    },
+    {
+      name: "description",
+      title: "Description",
+      type: "text",
+    },
+    {
+      name: "brand",
+      title: "Brand",
+      type: "reference",
+      to: [{ type: "brand" }],
+    },
+    {
+      name: "color",
+      title: "Color",
+      type: "reference",
+      to: [{ type: "color" }],
+    },
+    {
+      name: "relatedProducts",
+      title: "Related Products",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "products" }] }],
     },
 
     // extras
@@ -68,25 +90,31 @@ export default {
       type: "boolean",
       description: "Newly added products will be shown on the home page",
     },
-    // {
-    //   name: "sale",
-    //   title: "Sale",
-    //   type: "boolean",
-    //   description: "Products on sale will be shown on the home page",
-    // },
-    // {
-    //   name: "salePrice",
-    //   title: "Sale Price",
-    //   type: "number",
-    //   description: "Sale price in Rupees",
-    //   validation: (Rule) => Rule.min(0).max(100000),
-    // },
+    {
+      name: "featured",
+      title: "Featured",
+      type: "boolean",
+      description: "Featured product will be shown on the home page",
+    },
+    {
+      name: "instock",
+      title: "In Stock",
+      type: "boolean",
+      description: "Is the Stock Available for this product",
+      initialValue: true,
+    },
+    {
+      name: "discount",
+      title: "Discount",
+      type: "number",
+      validation: (Rule) => Rule.min(0).max(100),
+    },
   ],
 
   preview: {
     select: {
       title: "name",
-      media: "image",
+      media: "thumbnail",
     },
   },
 };

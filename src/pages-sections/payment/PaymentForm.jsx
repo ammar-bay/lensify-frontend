@@ -1,23 +1,99 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Fragment, useState } from "react";
-import { Box, Button, Divider, Grid, Radio, TextField } from "@mui/material";
+import { Button, Grid, Radio } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import * as yup from "yup";
-import { Formik } from "formik";
 import Card1 from "components/Card1";
-import { FlexBox } from "components/flex-box";
 import { Paragraph } from "components/Typography";
-import useWindowSize from "hooks/useWindowSize";
+import { useAppContext } from "contexts/AppContext";
+import Link from "next/link";
+import { useSnackbar } from "notistack";
+
+import { Fragment, useState } from "react";
+import axios from "utils/axios";
+
 const PaymentForm = () => {
-  const [paymentMethod, setPaymentMethod] = useState("credit-card");
-  const width = useWindowSize();
-  const router = useRouter();
-  const isMobile = width < 769;
-  const handleFormSubmit = async (values) => router.push("/payment");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [isLoading, setIsLoading] = useState(false);
+  const { state, dispatch } = useAppContext();
+  const { enqueueSnackbar } = useSnackbar();
+  // const width = useWindowSize();
+  // const router = useRouter();
+  // const isMobile = width < 769;
+  // const handleFormSubmit = async (values) => router.push("/payment");
   const handlePaymentMethodChange = ({ target: { name } }) => {
     setPaymentMethod(name);
   };
+
+  // console.log(state);
+  const handlePlaceOrder = async () => {
+    if (isLoading) return;
+
+    if (state.cart.length === 0) {
+      return enqueueSnackbar("Cart is empty", { variant: "error" });
+    }
+
+    setIsLoading(true);
+    // console.log(state);
+    try {
+      const formData = new FormData();
+
+      // Add base order fields
+      formData.append("orderDetails", JSON.stringify(state.orderDetails));
+      formData.append("paymentMethod", paymentMethod);
+
+      if (state?.user) {
+        formData.append("user", state.user._id);
+      }
+
+      // Add cart items
+      state.cart.forEach((item, idx) => {
+        formData.append(`cart[${idx}][name]`, item.name);
+        formData.append(`cart[${idx}][qty]`, item.qty);
+        formData.append(`cart[${idx}][slug]`, item.slug);
+        formData.append(`cart[${idx}][imgUrl]`, item.imgUrl);
+        formData.append(`cart[${idx}][price]`, item.price);
+        formData.append(`cart[${idx}][lensType]`, item.lensType);
+        formData.append(`cart[${idx}][lensCat]`, item.lensCat);
+        formData.append(`cart[${idx}][lasserToggle]`, item.lasserToggle);
+        formData.append(
+          `cart[${idx}][presDetails][sphere]`,
+          item.presDetails?.sphere
+        );
+        formData.append(
+          `cart[${idx}][presDetails][cylinder]`,
+          item.presDetails?.cylinder
+        );
+        formData.append(
+          `cart[${idx}][presDetails][axis]`,
+          item.presDetails?.axis
+        );
+        formData.append(
+          `cart[${idx}][presDetails][type]`,
+          item.presDetails?.type
+        );
+        // Add other item fields if any
+
+        if (item.presDetails.prescriptionFile) {
+          formData.append(
+            `cart[${idx}][presDetails][prescriptionFile]`,
+            item.presDetails.prescriptionFile
+          );
+        }
+      });
+
+      const result = await axios.post("/order", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      enqueueSnackbar("Order placed successfully", { variant: "success" });
+      dispatch({ type: "EMPTY_CART" });
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar("Could not place order, try again", { variant: "error" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Fragment>
       <Card1
@@ -25,7 +101,7 @@ const PaymentForm = () => {
           mb: 4,
         }}
       >
-        <FormControlLabel
+        {/* <FormControlLabel
           sx={{
             mb: 3,
           }}
@@ -132,9 +208,9 @@ const PaymentForm = () => {
               </form>
             )}
           </Formik>
-        )}
+        )} */}
 
-        <FormControlLabel
+        {/* <FormControlLabel
           name="paypal"
           sx={{
             mb: 3,
@@ -155,9 +231,9 @@ const PaymentForm = () => {
             mb: 3,
             mx: -4,
           }}
-        />
+        /> */}
 
-        {paymentMethod === "paypal" && (
+        {/* {paymentMethod === "paypal" && (
           <Fragment>
             <FlexBox alignItems="flex-end" mb={4}>
               <TextField
@@ -181,7 +257,7 @@ const PaymentForm = () => {
               }}
             />
           </Fragment>
-        )}
+        )} */}
 
         <FormControlLabel
           name="cod"
@@ -216,49 +292,52 @@ const PaymentForm = () => {
             LinkComponent={Link}
             variant="contained"
             color="primary"
-            href="/orders"
+            // href="/orders"
             type="submit"
             fullWidth
+            onClick={handlePlaceOrder}
           >
-            Review
+            Place Order
           </Button>
         </Grid>
       </Grid>
     </Fragment>
   );
 };
-const initialValues = {
-  card_no: "",
-  name: "",
-  exp_date: "",
-  cvc: "",
-  shipping_zip: "",
-  shipping_country: "",
-  shipping_address1: "",
-  shipping_address2: "",
-  billing_name: "",
-  billing_email: "",
-  billing_contact: "",
-  billing_company: "",
-  billing_zip: "",
-  billing_country: "",
-  billing_address1: "",
-  billing_address2: "",
-};
-const checkoutSchema = yup.object().shape({
-  card_no: yup.string().required("required"),
-  name: yup.string().required("required"),
-  exp_date: yup.string().required("required"),
-  cvc: yup.string().required("required"),
-  // shipping_zip: yup.string().required("required"),
-  // shipping_country: yup.object().required("required"),
-  // shipping_address1: yup.string().required("required"),
-  // billing_name: yup.string().required("required"),
-  // billing_email: yup.string().required("required"),
-  // billing_contact: yup.string().required("required"),
-  // billing_zip: yup.string().required("required"),
-  // billing_country: yup.string().required("required"),
-  // billing_address1: yup.string().required("required"),
-});
+
+// const initialValues = {
+//   card_no: "",
+//   name: "",
+//   exp_date: "",
+//   cvc: "",
+//   shipping_zip: "",
+//   shipping_country: "",
+//   shipping_address1: "",
+//   shipping_address2: "",
+//   billing_name: "",
+//   billing_email: "",
+//   billing_contact: "",
+//   billing_company: "",
+//   billing_zip: "",
+//   billing_country: "",
+//   billing_address1: "",
+//   billing_address2: "",
+// };
+
+// const checkoutSchema = yup.object().shape({
+// card_no: yup.string().required("required"),
+// name: yup.string().required("required"),
+// exp_date: yup.string().required("required"),
+// cvc: yup.string().required("required"),
+// shipping_zip: yup.string().required("required"),
+// shipping_country: yup.object().required("required"),
+// shipping_address1: yup.string().required("required"),
+// billing_name: yup.string().required("required"),
+// billing_email: yup.string().required("required"),
+// billing_contact: yup.string().required("required"),
+// billing_zip: yup.string().required("required"),
+// billing_country: yup.string().required("required"),
+// billing_address1: yup.string().required("required"),
+// });
 
 export default PaymentForm;

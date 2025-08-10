@@ -48,7 +48,7 @@ const Cart = () => {
               }}
             />
 
-            <FlexBox alignItems="center" columnGap={1} mb={2}>
+            {/* <FlexBox alignItems="center" columnGap={1} mb={2}>
               <Span fontWeight="600">Additional Comments</Span>
 
               <Span
@@ -77,9 +77,9 @@ const Cart = () => {
               sx={{
                 mb: 2,
               }}
-            />
+            /> */}
 
-            <TextField
+            {/* <TextField
               fullWidth
               size="small"
               label="Voucher"
@@ -103,9 +103,9 @@ const Cart = () => {
               sx={{
                 mb: 2,
               }}
-            />
+            /> */}
 
-            <Span fontWeight={600} mb={2} display="block">
+            {/* <Span fontWeight={600} mb={2} display="block">
               Shipping Estimates
             </Span>
 
@@ -163,7 +163,7 @@ const Cart = () => {
               }}
             >
               Calculate Shipping
-            </Button>
+            </Button> */}
 
             <Button
               fullWidth

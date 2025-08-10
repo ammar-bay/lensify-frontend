@@ -9,11 +9,7 @@ import AvailableShops from "pages-sections/product-details/AvailableShops";
 import RelatedProducts from "pages-sections/product-details/RelatedProducts";
 import FrequentlyBought from "pages-sections/product-details/FrequentlyBought";
 import ProductDescription from "pages-sections/product-details/ProductDescription";
-import {
-  getFrequentlyBought,
-  getRelatedProducts,
-} from "utils/__api__/related-products";
-import api from "utils/__api__/products";
+import { client } from "../../sanity/lib/client";
 
 // styled component
 const StyledTabs = styled(Tabs)(({ theme }) => ({
@@ -32,8 +28,7 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
 
 // ===============================================================
 
-const ProductDetails = (props) => {
-  const { frequentlyBought, relatedProducts, product } = props;
+const ProductDetails = ({ product }) => {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(0);
   const handleOptionClick = (_, value) => setSelectedOption(value);
@@ -60,44 +55,91 @@ const ProductDetails = (props) => {
           onChange={handleOptionClick}
         >
           <Tab className="inner-tab" label="Description" />
-          <Tab className="inner-tab" label="Review (3)" />
+          {/* <Tab className="inner-tab" label="Review (3)" /> */}
         </StyledTabs>
 
         <Box mb={6}>
-          {selectedOption === 0 && <ProductDescription />}
-          {selectedOption === 1 && <ProductReview />}
+          {selectedOption === 0 && (
+            <ProductDescription description={product?.description} />
+          )}
+          {/* {selectedOption === 1 && <ProductReview />} */}
         </Box>
 
-        {frequentlyBought && (
+        {/* {frequentlyBought && (
           <FrequentlyBought productsData={frequentlyBought} />
+        )} */}
+
+        {/* <AvailableShops /> */}
+
+        {product?.relatedProducts && (
+          <RelatedProducts productsData={product?.relatedProducts} />
         )}
-
-        <AvailableShops />
-
-        {relatedProducts && <RelatedProducts productsData={relatedProducts} />}
       </Container>
     </ShopLayout1>
   );
 };
+
 export const getStaticPaths = async () => {
-  const paths = await api.getSlugs();
+  const query = '*[_type == "products"]{slug}';
+  let products = [];
+
+  try {
+    products = await client.fetch(query);
+    // console.log("Fetched products:", products); // Debugging log
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+
+  const paths = products
+    .filter((product) => product.slug && product.slug.current) // Ensure valid slugs
+    .map((product) => ({
+      params: { slug: product.slug.current },
+    }));
+
+  if (paths.length === 0) {
+    console.warn(
+      "No paths generated. Check if your Sanity dataset contains products."
+    );
+  }
+
   return {
-    paths: paths,
-    //indicates that no page needs be created at build time
-    fallback: "blocking", //indicates the type of fallback
+    paths,
+    fallback: "blocking", // Use 'blocking' for dynamic slugs
   };
 };
 
 export const getStaticProps = async ({ params }) => {
-  const relatedProducts = await getRelatedProducts();
-  const frequentlyBought = await getFrequentlyBought();
-  const product = await api.getProduct(params.slug);
+  if (!params?.slug) {
+    return {
+      notFound: true, // Return a 404 if slug is missing
+    };
+  }
+
+  const query = `*[slug.current == "${params.slug}"][0]{
+    ...,
+    category[]->{
+      ...
+    },
+    brand->{
+      ...
+    },
+    relatedProducts[]->{
+      ...
+    }
+  }`;
+  const product = await client.fetch(query);
+
+  if (!product || !product?.slug?.current) {
+    return {
+      notFound: true, // Return a 404 if the product is not found
+    };
+  }
+
   return {
     props: {
-      frequentlyBought,
-      relatedProducts,
       product,
     },
   };
 };
+
 export default ProductDetails;

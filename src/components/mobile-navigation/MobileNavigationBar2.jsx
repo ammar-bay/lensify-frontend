@@ -59,7 +59,7 @@ const MobileNavigationBar2 = ({ children }) => {
             return (
               <StyledNavLink href={item.href} key={item.title}>
                 {item.title === "Cart" && (
-                  <Badge badgeContent={state.cart.length} color="primary">
+                  <Badge badgeContent={state?.cart?.length} color="primary">
                     <item.icon fontSize="small" sx={iconStyle} />
                   </Badge>
                 )}
@@ -77,7 +77,7 @@ const MobileNavigationBar2 = ({ children }) => {
                 key={item.title}
               >
                 {item.title === "Cart" && (
-                  <Badge badgeContent={state.cart.length} color="primary">
+                  <Badge badgeContent={state?.cart?.length} color="primary">
                     <item.icon fontSize="small" sx={iconStyle} />
                   </Badge>
                 )}

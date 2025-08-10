@@ -1,4 +1,4 @@
-import { Add, Close, Remove } from "@mui/icons-material";
+import { Add, BorderAllRounded, Close, Remove } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -16,6 +16,7 @@ import Carousel from "components/carousel/Carousel";
 import { H1, H2, H3, H6, Paragraph } from "components/Typography";
 import { useAppContext } from "contexts/AppContext";
 import { currency } from "lib";
+import { urlForImage } from "../../../sanity/lib/image";
 
 // styled components
 const ContentWrapper = styled(Box)(({ theme }) => ({
@@ -67,7 +68,7 @@ const ProductViewDialog = (props) => {
         ...product,
         qty: amount,
         name: product.title,
-        imgUrl: product.imgGroup[0],
+        // imgUrl: urlForImage(product.thumbnail).url(),
       },
     });
   };
@@ -93,7 +94,7 @@ const ProductViewDialog = (props) => {
                 {product.imgGroup.map((item, index) => (
                   <BazaarImage
                     key={index}
-                    src={item}
+                    // src={urlForImage(item).url()}
                     sx={{
                       mx: "auto",
                       width: "100%",
@@ -108,82 +109,98 @@ const ProductViewDialog = (props) => {
               </Carousel>
             </Grid>
 
-            <Grid item md={6} xs={12} alignSelf="center">
-              <H2>{product.title}</H2>
-
-              <Paragraph py={1} color="grey.500" fontWeight={600} fontSize={13}>
-                CATEGORY: Cosmetic
-              </Paragraph>
-
-              <H1 color="primary.main">{currency(product.price)}</H1>
-
-              <FlexBox alignItems="center" gap={1}>
-                <BazaarRating
-                  color="warn"
-                  fontSize="1.25rem"
-                  value={4}
-                  readOnly
-                />
-                <H6 lineHeight="1">(50)</H6>
-              </FlexBox>
-
-              <Paragraph my={2}>
-                Sed egestas, ante et vulputate volutpat, eros pede semper est,
-                vitae luctus metus libero eu augue. Morbi purus liberpuro ate
-                vol faucibus adipiscing.
-              </Paragraph>
-
-              <Divider
-                sx={{
-                  mb: 2,
+            <Grid
+              item
+              md={6}
+              xs={12}
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
                 }}
-              />
+              >
+                <H2>{product.title}</H2>
 
-              {!cartItem?.qty ? (
-                <Button
-                  size="large"
-                  color="primary"
-                  variant="contained"
-                  onClick={handleCartAmountChange(1)}
-                  sx={{
-                    height: 45,
-                  }}
+                <Paragraph
+                  py={1}
+                  color="grey.500"
+                  fontWeight={600}
+                  fontSize={13}
                 >
-                  Add to Cart
-                </Button>
-              ) : (
-                <FlexBox alignItems="center">
+                  {product?.categories?.length > 0 &&
+                    "CATEGORY: " + product.categories[0].name}
+                </Paragraph>
+
+                <H1 color="primary.main">{currency(product.price)}</H1>
+
+                {/* <FlexBox alignItems="center" gap={1}>
+                  <BazaarRating
+                    color="warn"
+                    fontSize="1.25rem"
+                    value={4}
+                    readOnly
+                  />
+                  <H6 lineHeight="1">(50)</H6>
+                </FlexBox> */}
+
+                <Paragraph my={2}>{product.description}</Paragraph>
+              </div>
+              <div>
+                <Divider
+                  sx={{
+                    mb: 2,
+                  }}
+                />
+                {!cartItem?.qty ? (
                   <Button
-                    size="small"
+                    size="large"
                     color="primary"
-                    variant="outlined"
+                    variant="contained"
+                    onClick={handleCartAmountChange(1)}
                     sx={{
-                      p: ".6rem",
                       height: 45,
                     }}
-                    onClick={handleCartAmountChange(cartItem?.qty - 1)}
                   >
-                    <Remove fontSize="small" />
+                    Add to Cart
                   </Button>
+                ) : (
+                  <FlexBox alignItems="center">
+                    <Button
+                      size="small"
+                      color="primary"
+                      variant="outlined"
+                      sx={{
+                        p: ".6rem",
+                        height: 45,
+                      }}
+                      onClick={handleCartAmountChange(cartItem?.qty - 1)}
+                    >
+                      <Remove fontSize="small" />
+                    </Button>
 
-                  <H3 fontWeight="600" mx={2.5}>
-                    {cartItem?.qty.toString().padStart(2, "0")}
-                  </H3>
+                    <H3 fontWeight="600" mx={2.5}>
+                      {cartItem?.qty.toString().padStart(2, "0")}
+                    </H3>
 
-                  <Button
-                    size="small"
-                    color="primary"
-                    variant="outlined"
-                    sx={{
-                      p: ".6rem",
-                      height: 45,
-                    }}
-                    onClick={handleCartAmountChange(cartItem?.qty + 1)}
-                  >
-                    <Add fontSize="small" />
-                  </Button>
-                </FlexBox>
-              )}
+                    <Button
+                      size="small"
+                      color="primary"
+                      variant="outlined"
+                      sx={{
+                        p: ".6rem",
+                        height: 45,
+                      }}
+                      onClick={handleCartAmountChange(cartItem?.qty + 1)}
+                    >
+                      <Add fontSize="small" />
+                    </Button>
+                  </FlexBox>
+                )}
+              </div>
             </Grid>
           </Grid>
         </ContentWrapper>

@@ -6,6 +6,8 @@ import Header from "components/header/Header";
 import Navbar from "components/navbar/Navbar";
 import { MobileNavigationBar } from "components/mobile-navigation";
 import SearchInputWithCategory from "components/search-box/SearchInputWithCategory";
+import SearchInput from "components/search-box/SearchInput";
+import { Container } from "@mui/material";
 
 /**
  *  Used in:
@@ -31,29 +33,42 @@ const ShopLayout1 = ({
   const [isFixed, setIsFixed] = useState(false);
   const toggleIsFixed = useCallback((fixed) => setIsFixed(fixed), []);
   return (
-    <Fragment>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* TOPBAR */}
       {showTopbar && <Topbar bgColor={topbarBgColor} />}
 
       {/* HEADER */}
       <Sticky fixedOn={0} onSticky={toggleIsFixed} scrollDistance={300}>
-        <Header isFixed={isFixed} searchInput={<SearchInputWithCategory />} />
+        <Header isFixed={isFixed} searchInput={<SearchInput />} />
       </Sticky>
 
-      <div className="section-after-sticky">
+      <div
+        className="section-after-sticky"
+        style={{
+          flex: 1, // Take remaining vertical space
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         {/* NAVIGATION BAR */}
-        {showNavbar && <Navbar elevation={0} border={1} />}
+        {/* {showNavbar && <Navbar elevation={0} border={1} />} */}
 
         {/* BODY CONTENT */}
         {children}
       </div>
 
       {/* SMALL DEVICE BOTTOM NAVIGATION */}
-      <MobileNavigationBar />
+      {/* <MobileNavigationBar /> */}
 
       {/* FOOTER */}
       <Footer1 />
-    </Fragment>
+    </div>
   );
 };
 export default ShopLayout1;
