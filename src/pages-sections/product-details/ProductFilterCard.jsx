@@ -135,19 +135,19 @@ const ProductFilterCard = ({
       <FlexBox mb={2} flexWrap="wrap" gap={1}>
         {colorList.map((item) => (
           <Box
-            key={item}
+            key={item.hexa}
             flexShrink={0}
             sx={{
               width: 25,
               height: 25,
-              bgcolor: item,
+              bgcolor: item.hexa,
               cursor: "pointer",
               borderRadius: "50%",
-              border: productFilters.colors.includes(item)
+              border: productFilters.colors.includes(item.name)
                 ? "2px solid #d24057"
                 : "none",
             }}
-            onClick={() => toggleArrayValue("colors", item)}
+            onClick={() => toggleArrayValue("colors", item.name)}
           />
         ))}
       </FlexBox>
@@ -156,8 +156,8 @@ const ProductFilterCard = ({
 };
 
 const otherOptions = [
-  "On Sale",
-  "In Stock",
+  // "On Sale",
+  // "In Stock",
   "Featured",
   "Best Selling",
   "New Arrival",

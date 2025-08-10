@@ -37,7 +37,13 @@ const ProductSearchResult = ({ products }) => {
   const brands = [
     ...new Set(products.map((p) => p.brand?.name).filter(Boolean)),
   ];
-  const colorList = [...new Set(products.map((p) => p.color).filter(Boolean))];
+  const colorList = [
+    ...new Set(
+      products
+        .map((p) => ({ name: p.color?.name, hexa: p.color?.hexa }))
+        .filter(Boolean)
+    ),
+  ];
 
   const { state, dispatch } = useAppContext();
   const downMd = useMediaQuery((theme) => theme.breakpoints.down("md"));
@@ -55,6 +61,8 @@ const ProductSearchResult = ({ products }) => {
   });
   const [sort, setSort] = useState("date");
 
+  // console.log(productFilters);
+
   useEffect(() => {
     const q = state?.searchVal?.toLowerCase();
     const {
@@ -62,11 +70,11 @@ const ProductSearchResult = ({ products }) => {
       brands,
       colors,
       priceRange,
-      bestselling,
-      onsale,
+      // instock,
+      // onsale,
       newarrival,
+      bestselling,
       featured,
-      instock,
     } = productFilters;
 
     setFilteredProducts(
@@ -84,13 +92,14 @@ const ProductSearchResult = ({ products }) => {
           (!category.length ||
             p.categories?.some((c) => category.includes(c.name))) &&
           (!brands.length || brands.includes(p.brand?.name)) &&
-          (!colors.length || colors.includes(p.color)) &&
+          (!colors.length || colors.includes(p.color?.name)) &&
           (priceRange.low == null || p.price >= priceRange.low) &&
           (priceRange.high == null || p.price <= priceRange.high) &&
-          (onsale == null || p.onsale) &&
-          (newarrival == null || p.newarrival) &&
-          (featured == null || p.featured) &&
-          (instock == null || p.instock)
+          // (!instock || (instock && p.instock))
+          // (!onsale || (onsale && p.onsale)) &&
+          (!newarrival || (newarrival && p.newArrival)) &&
+          (!bestselling || (bestselling && p.bestSeller)) &&
+          (!featured || (featured && p.featured))
         );
       })
     );
@@ -291,6 +300,10 @@ export const getStaticProps = async () => {
       },
       brand->{
         name
+      },
+      color->{
+        name,
+        hexa
       }
     }
   `);
