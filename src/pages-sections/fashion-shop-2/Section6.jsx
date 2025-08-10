@@ -22,7 +22,7 @@ const Section6 = ({ products }) => {
       {/* FEATURED PRODUCTS AREA */}
       <Container
         sx={{
-          mt: 8,
+          my: 8,
         }}
       >
         <H2 textAlign="center" mb={4}>
