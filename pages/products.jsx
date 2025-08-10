@@ -43,7 +43,7 @@ const ProductSearchResult = ({ products }) => {
   const downMd = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const toggleView = useCallback((v) => () => setView(v), []);
   const [productFilters, setProductFilters] = useState({
-    category: [searchCat],
+    category: [],
     priceRange: { low: null, high: null },
     brands: [],
     colors: [],
@@ -95,6 +95,14 @@ const ProductSearchResult = ({ products }) => {
       })
     );
   }, [state?.searchVal, products, productFilters]);
+
+  useEffect(() => {
+    if (!searchCat) return;
+    setProductFilters((prevVal) => ({
+      ...prevVal,
+      category: [...prevVal.category, searchCat],
+    }));
+  }, [searchCat]);
 
   useEffect(() => {
     if (!sort) return;
