@@ -4,7 +4,7 @@ const OpenGraphTags = () => {
     <React.Fragment>
       <meta
         property="og:url"
-        content="https://bazaar-react.vercel.app/landing"
+        content="https://lensify.com/landing"
       />
       {/* thumbnail And title for social media */}
       <meta property="og:type" content="website" />
