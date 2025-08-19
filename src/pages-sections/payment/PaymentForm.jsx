@@ -4,6 +4,7 @@ import Card1 from "components/Card1";
 import { Paragraph } from "components/Typography";
 import { useAppContext } from "contexts/AppContext";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 
 import { Fragment, useState } from "react";
@@ -15,7 +16,7 @@ const PaymentForm = () => {
   const { state, dispatch } = useAppContext();
   const { enqueueSnackbar } = useSnackbar();
   // const width = useWindowSize();
-  // const router = useRouter();
+  const router = useRouter();
   // const isMobile = width < 769;
   // const handleFormSubmit = async (values) => router.push("/payment");
   const handlePaymentMethodChange = ({ target: { name } }) => {
@@ -71,10 +72,10 @@ const PaymentForm = () => {
         );
         // Add other item fields if any
 
-        if (item.presDetails.prescriptionFile) {
+        if (item.presDetails?.prescriptionFile) {
           formData.append(
             `cart[${idx}][presDetails][prescriptionFile]`,
-            item.presDetails.prescriptionFile
+            item.presDetails?.prescriptionFile
           );
         }
       });
