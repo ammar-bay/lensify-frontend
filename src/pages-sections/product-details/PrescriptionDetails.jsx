@@ -67,25 +67,27 @@ const PrescriptionDetails = ({ setPresDetails, presDetails }) => {
       {presDetails.type === presOptions[0] ? (
         <Box mb={1.5}>
           <Typography mb={1.5}>Enter Card Information</Typography>
+          <Typography mb={1.5}>Left:</Typography>
+
           <Grid container spacing={1.5}>
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
                 type="number"
-                name="sphere"
+                name="sphereL"
                 onChange={handleChange}
                 label="Sphere"
-                value={presDetails.sphere || ""}
+                value={presDetails.sphereL || ""}
               />
             </Grid>
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
                 type="number"
-                name="cylinder"
+                name="cylinderL"
                 onChange={handleChange}
                 label="Cylinder"
-                value={presDetails.cylinder || ""}
+                value={presDetails.cylinderL || ""}
               />
             </Grid>
             <Grid item sm={12} xs={12}>
@@ -93,10 +95,48 @@ const PrescriptionDetails = ({ setPresDetails, presDetails }) => {
                 <TextField
                   fullWidth
                   type="number"
-                  name="axis"
+                  name="axisL"
                   label="Axis"
                   onChange={handleChange}
-                  value={presDetails.axis || ""}
+                  value={presDetails.axisL || ""}
+                  // error={!!touched.cardCVC && !!errors.cardCVC}
+                  // helperText={touched.cardCVC && errors.cardCVC}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+          <Typography my={1.5}>Right:</Typography>
+
+          <Grid container spacing={1.5}>
+            <Grid item sm={6} xs={12}>
+              <TextField
+                fullWidth
+                type="number"
+                name="sphereR"
+                onChange={handleChange}
+                label="Sphere"
+                value={presDetails.sphereR || ""}
+              />
+            </Grid>
+            <Grid item sm={6} xs={12}>
+              <TextField
+                fullWidth
+                type="number"
+                name="cylinderR"
+                onChange={handleChange}
+                label="Cylinder"
+                value={presDetails.cylinderR || ""}
+              />
+            </Grid>
+            <Grid item sm={12} xs={12}>
+              <Box display="flex" justifyContent="space-between">
+                <TextField
+                  fullWidth
+                  type="number"
+                  name="axisR"
+                  label="Axis"
+                  onChange={handleChange}
+                  value={presDetails.axisR || ""}
                   // error={!!touched.cardCVC && !!errors.cardCVC}
                   // helperText={touched.cardCVC && errors.cardCVC}
                 />

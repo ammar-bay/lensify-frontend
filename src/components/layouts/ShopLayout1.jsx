@@ -57,14 +57,14 @@ const ShopLayout1 = ({
         }}
       >
         {/* NAVIGATION BAR */}
-        {/* {showNavbar && <Navbar elevation={0} border={1} />} */}
+        {showNavbar && <Navbar elevation={0} border={1} />}
 
         {/* BODY CONTENT */}
         {children}
       </div>
 
       {/* SMALL DEVICE BOTTOM NAVIGATION */}
-      {/* <MobileNavigationBar /> */}
+      <MobileNavigationBar />
 
       {/* FOOTER */}
       <Footer1 />
