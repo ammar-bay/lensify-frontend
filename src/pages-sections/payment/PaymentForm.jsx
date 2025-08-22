@@ -1,21 +1,24 @@
-import { Button, Grid, Radio } from "@mui/material";
+import { Button, Divider, Grid, Radio } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Card1 from "components/Card1";
 import { Paragraph } from "components/Typography";
 import { useAppContext } from "contexts/AppContext";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 
 import { Fragment, useState } from "react";
 import axios from "utils/axios";
+import UploadReceipt from "./UploadReceipt";
 
 const PaymentForm = () => {
-  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [paymentMethod, setPaymentMethod] = useState("bank-transfer");
+  const [paymentReceipt, setPaymentReceipt] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { state, dispatch } = useAppContext();
   const { enqueueSnackbar } = useSnackbar();
   // const width = useWindowSize();
-  // const router = useRouter();
+  const router = useRouter();
   // const isMobile = width < 769;
   // const handleFormSubmit = async (values) => router.push("/payment");
   const handlePaymentMethodChange = ({ target: { name } }) => {
@@ -38,6 +41,10 @@ const PaymentForm = () => {
       // Add base order fields
       formData.append("orderDetails", JSON.stringify(state.orderDetails));
       formData.append("paymentMethod", paymentMethod);
+
+      if (paymentMethod === "bank-transfer") {
+        formData.append("paymentReceipt", paymentReceipt);
+      }
 
       if (state?.user) {
         formData.append("user", state.user._id);
@@ -71,10 +78,10 @@ const PaymentForm = () => {
         );
         // Add other item fields if any
 
-        if (item.presDetails.prescriptionFile) {
+        if (item.presDetails?.prescriptionFile) {
           formData.append(
             `cart[${idx}][presDetails][prescriptionFile]`,
-            item.presDetails.prescriptionFile
+            item.presDetails?.prescriptionFile
           );
         }
       });
@@ -101,30 +108,37 @@ const PaymentForm = () => {
           mb: 4,
         }}
       >
-        {/* <FormControlLabel
+        <FormControlLabel
           sx={{
-            mb: 3,
+            mb: 1,
           }}
-          name="credit-card"
+          name="bank-transfer"
           onChange={handlePaymentMethodChange}
-          label={<Paragraph fontWeight={600}>Pay with credit card</Paragraph>}
+          label={<Paragraph fontWeight={600}>Bank Transfer</Paragraph>}
           control={
             <Radio
-              checked={paymentMethod === "credit-card"}
+              checked={paymentMethod === "bank-transfer"}
               color="primary"
               size="small"
             />
           }
         />
 
-        <Divider
+        {/* <Divider
           sx={{
             mb: 3,
             mx: -4,
           }}
-        />
+        /> */}
 
-        {paymentMethod === "credit-card" && (
+        {paymentMethod === "bank-transfer" && (
+          <UploadReceipt
+            onChange={(file) => setPaymentReceipt(file)}
+            paymentReceipt={paymentReceipt}
+          />
+        )}
+
+        {/*  {paymentMethod === "credit-card" && (
           <Formik
             onSubmit={handleFormSubmit}
             initialValues={initialValues}
@@ -258,6 +272,13 @@ const PaymentForm = () => {
             />
           </Fragment>
         )} */}
+
+        <Divider
+          sx={{
+            mb: 3,
+            mx: -4,
+          }}
+        />
 
         <FormControlLabel
           name="cod"

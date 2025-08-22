@@ -83,7 +83,7 @@ const ProductIntro = ({ product }) => {
       increasing &&
       selectedType === lensType[1] &&
       ((presDetails.type === presOptions[0] &&
-        (!presDetails.sphere || !presDetails.axis || !presDetails.cylinder)) ||
+        ((!presDetails.sphereR || !presDetails.axisR || !presDetails.cylinderR) || (!presDetails.sphereL || !presDetails.axisL || !presDetails.cylinderL))) ||
         (presDetails.type === presOptions[1] && !presDetails?.prescriptionFile))
     )
       return enqueueSnackbar("Please Fill the prescription details correctly.");

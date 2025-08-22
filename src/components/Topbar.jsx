@@ -7,6 +7,7 @@ import {
   Instagram,
   Remove,
   Twitter,
+  WhatsApp,
 } from "@mui/icons-material";
 import {
   Box,
@@ -180,6 +181,11 @@ const socialLinks = [
   {
     id: 3,
     Icon: Instagram,
+    url: "#",
+  },
+  {
+    id: 3,
+    Icon: WhatsApp,
     url: "#",
   },
 ];

@@ -9,6 +9,7 @@ import Twitter from "components/icons/Twitter";
 import Youtube from "components/icons/Youtube";
 import Facebook from "components/icons/Facebook";
 import Instagram from "components/icons/Instagram";
+import { WhatsApp } from "@mui/icons-material";
 
 // styled component
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -33,7 +34,7 @@ const Footer1 = () => {
           }}
         >
           <Box py={10} overflow="hidden">
-            <Grid container spacing={3}>
+            <Grid container display={"flex"} justifyContent={"space-between"} spacing={3}>
               <Grid item lg={4} md={6} sm={6} xs={12}>
                 <Link href="/">
                   <Image
@@ -50,7 +51,7 @@ const Footer1 = () => {
                 {/* <AppStore /> */}
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
+              {/* <Grid item lg={2} md={6} sm={6} xs={12}>
                 <Box
                   fontSize="18px"
                   fontWeight="600"
@@ -68,9 +69,9 @@ const Footer1 = () => {
                     </StyledLink>
                   ))}
                 </div>
-              </Grid>
+              </Grid> */}
 
-              <Grid item lg={3} md={6} sm={6} xs={12}>
+              {/* <Grid item lg={3} md={6} sm={6} xs={12}>
                 <Box
                   fontSize="18px"
                   fontWeight="600"
@@ -88,7 +89,7 @@ const Footer1 = () => {
                     </StyledLink>
                   ))}
                 </div>
-              </Grid>
+              </Grid> */}
 
               <Grid item lg={3} md={6} sm={6} xs={12}>
                 <Box
@@ -181,6 +182,10 @@ const iconList = [
   {
     icon: Instagram,
     url: "https://www.instagram.com/uilibofficial/",
+  },
+  {
+    icon: WhatsApp,
+    url: "wa.me/+92111111111",
   },
 ];
 export default Footer1;

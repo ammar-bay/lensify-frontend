@@ -7,10 +7,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // ========================================================
 
-const UploadPrescription = ({
+const UploadReceipt = ({
   onChange,
-  presDetails,
-  title = "Drag & Drop prescription here",
+  paymentReceipt,
+  title = "Drag & Drop receipt here",
 }) => {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -44,19 +44,18 @@ const UploadPrescription = ({
     onDrop,
     maxFiles: 1,
     multiple: false,
-    maxSize: 2 * 1024 * 1024, // 5 MB
+    maxSize: 5 * 1024 * 1024, // 5 MB
     accept: {
       "image/*": [".png", ".gif", ".jpeg", ".jpg"],
     },
   });
 
   const uploadedFile =
-    presDetails?.prescriptionFile instanceof File
-      ? presDetails.prescriptionFile
-      : presDetails?.prescriptionFile
+    paymentReceipt instanceof File
+      ? paymentReceipt
+      : paymentReceipt
       ? {
-          name:
-            presDetails.prescriptionFile.name || presDetails.prescriptionFile,
+          name: paymentReceipt.name || paymentReceipt,
           size: 0,
         }
       : null;
@@ -77,6 +76,7 @@ const UploadPrescription = ({
         transition: "all 250ms ease-in-out",
         outline: "none",
         p: 2,
+        mb: 2,
       }}
       {...getRootProps()}
     >
@@ -138,4 +138,4 @@ const UploadPrescription = ({
   );
 };
 
-export default UploadPrescription;
+export default UploadReceipt;

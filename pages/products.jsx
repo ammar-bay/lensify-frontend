@@ -77,24 +77,27 @@ const ProductSearchResult = ({ products }) => {
       featured,
     } = productFilters;
 
+
+
     setFilteredProducts(
       products.filter((p) => {
         const fields = [
           p.name,
           p.brand?.name,
           p.description,
-          p.color,
+          p.color?.name,
           ...p.categories?.map((c) => c.name),
         ];
+        console.log("FIEMLKNLDFN", fields)
         return (
           (!q ||
-            fields.filter(Boolean).some((v) => v.toLowerCase().includes(q))) &&
+            fields?.filter(Boolean)?.some((v) => v?.toLowerCase()?.includes(q))) &&
           (!category.length ||
-            p.categories?.some((c) => category.includes(c.name))) &&
-          (!brands.length || brands.includes(p.brand?.name)) &&
-          (!colors.length || colors.includes(p.color?.name)) &&
-          (priceRange.low == null || p.price >= priceRange.low) &&
-          (priceRange.high == null || p.price <= priceRange.high) &&
+            p.categories?.some((c) => category?.includes(c.name))) &&
+          (!brands?.length || brands?.includes(p?.brand?.name)) &&
+          (!colors?.length || colors?.includes(p?.color?.name)) &&
+          (priceRange?.low == null || p?.price >= priceRange.low) &&
+          (priceRange?.high == null || p?.price <= priceRange.high) &&
           // (!instock || (instock && p.instock))
           // (!onsale || (onsale && p.onsale)) &&
           (!newarrival || (newarrival && p.newArrival)) &&
@@ -281,7 +284,7 @@ const sortOptions = [
   },
   {
     label: "Price Low to High",
-    value: "priceDown",
+    value: "priceUp",
   },
   {
     label: "Price High to Low",

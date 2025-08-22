@@ -99,12 +99,21 @@ const ProductViewDialog = (props) => {
                     }
                     sx={{
                       mx: "auto",
-                      width: "100%",
-                      objectFit: "contain",
-                      height: {
-                        sm: 400,
+                      width: {
                         xs: 250,
+                        sm: 350,
+                        md: 400,
+                        lg: 450,
                       },
+                      height: {
+                        xs: 250,
+                        sm: 400,
+                        md: 400,
+                        lg: 450,
+                      },
+                      objectFit: "contain",
+                      display: "block",
+                      backgroundColor: "grey.100",
                     }}
                   />
                 ))}

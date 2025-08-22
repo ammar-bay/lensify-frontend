@@ -43,10 +43,10 @@ const list = [
     icon: ShoppingBagOutlined,
     href: "/cart",
   },
-  {
-    title: "Account",
-    icon: User2,
-    href: "/profile",
-  },
+  // {
+  //   title: "Account",
+  //   icon: User2,
+  //   href: "/profile",
+  // },
 ];
 export default MobileNavigationBar;

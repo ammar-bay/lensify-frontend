@@ -19,6 +19,7 @@ import MobileMenu from "components/navbar/MobileMenu";
 import { FlexBetween, FlexBox } from "components/flex-box";
 import CategoryMenu from "components/categories/CategoryMenu";
 import ShoppingBagOutlined from "components/icons/ShoppingBagOutlined";
+import { useRouter } from "next/router";
 
 // styled component
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
@@ -51,9 +52,16 @@ const Header = ({ isFixed, className, searchInput }) => {
   const [searchBarOpen, setSearchBarOpen] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const downMd = useMediaQuery(theme.breakpoints.down(1150));
+  const downMobile = useMediaQuery(theme.breakpoints.down(660));
   const toggleDialog = () => setDialogOpen(!dialogOpen);
   const toggleSidenav = () => setSidenavOpen(!sidenavOpen);
   const toggleSearchBar = () => setSearchBarOpen(!searchBarOpen);
+
+  const router = useRouter();
+
+  const handleConsultation = () => {
+    router.push("/contact-us");
+  };
 
   // LOGIN AND MINICART DRAWER
   const DIALOG_DRAWER = (
@@ -96,6 +104,20 @@ const Header = ({ isFixed, className, searchInput }) => {
             {/* LEFT CONTENT - NAVIGATION ICON BUTTON */}
             <Box flex={1}>
               <MobileMenu />
+              {!downMobile && (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleConsultation}
+                  sx={{
+                    ml: "1.75rem",
+                    px: "1.75rem",
+                    height: 40,
+                  }}
+                >
+                  Free Consultation
+                </Button>
+              )}
             </Box>
 
             {/* MIDDLE CONTENT - LOGO */}
@@ -108,10 +130,10 @@ const Header = ({ isFixed, className, searchInput }) => {
               <Box component={IconButton} onClick={toggleSearchBar}>
                 <Icon.Search sx={ICON_STYLE} />
               </Box>
-
+              {/* 
               <Box component={IconButton} onClick={toggleDialog}>
                 <Icon.User sx={ICON_STYLE} />
-              </Box>
+              </Box> */}
 
               <Box component={IconButton} onClick={toggleSidenav}>
                 <Badge badgeContent={state?.cart?.length} color="primary">
@@ -160,7 +182,7 @@ const Header = ({ isFixed, className, searchInput }) => {
     <HeaderWrapper className={clsx(className)}>
       <StyledContainer>
         {/* LEFT CONTENT - LOGO AND CATEGORY */}
-        <FlexBox mr={2} minWidth="170px" alignItems="center">
+        <FlexBox minWidth="170px" alignItems="center">
           <Link href="/">
             <Image height={70} src="/assets/images/logo.png" alt="logo" />
           </Link>
@@ -176,6 +198,19 @@ const Header = ({ isFixed, className, searchInput }) => {
               </FlexBox>
             </CategoryMenu>
           )}
+        </FlexBox>
+        <FlexBox>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleConsultation}
+            sx={{
+              px: "1.75rem",
+              height: 40,
+            }}
+          >
+            Free Consultation
+          </Button>
         </FlexBox>
 
         {/* SEARCH FORM */}
