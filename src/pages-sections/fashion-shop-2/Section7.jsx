@@ -21,11 +21,11 @@ const Section7 = () => {
       </H3>
 
       <H1 fontSize={50} lineHeight={1} mb={1}>
-        Summer Season Sale
+        Winter Season Sale
       </H1>
 
       <Paragraph fontWeight={600} fontSize={18} mb={4}>
-        Free shipping on orders over $99
+        Free shipping on orders over Rs 2999
       </Paragraph>
 
       <Button variant="contained" size="large" color="dark" href="/products">

@@ -28,7 +28,7 @@ const Footer1 = () => {
       <Box bgcolor="#222935">
         <Container
           sx={{
-            p: "1rem",
+            p: "0.5rem",
             color: "white",
           }}
         >
@@ -37,17 +37,14 @@ const Footer1 = () => {
               <Grid item lg={4} md={6} sm={6} xs={12}>
                 <Link href="/">
                   <Image
-                    height={100}
-                    width={100}
+                    height={200}
+                    width={250}
                     src="/assets/images/logo.png"
                     alt="logo"
                   />
                 </Link>
 
                 <Paragraph mb={2.5} color="grey.500">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Auctor libero id et, in gravida. Sit diam duis mauris nulla
-                  cursus. Erat et lectus vel ut sollicitudin elit at amet.
                 </Paragraph>
 
                 {/* <AppStore /> */}

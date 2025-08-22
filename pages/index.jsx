@@ -26,7 +26,7 @@ const FashionShop2 = (props) => {
   const theme = useTheme();
   return (
     <ShopLayout1 topbarBgColor={theme.palette.grey[900]}>
-      <SEO title="Fashion shop template v2" />
+      <SEO title="Lensifyco" />
       <Box bgcolor="white">
         {/* HERO SECTION CAROUSEL */}
         <Section1 carouselData={props.mainCarouselData} />
