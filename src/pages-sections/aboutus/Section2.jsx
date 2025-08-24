@@ -1,133 +1,109 @@
-import { Box, Button, Container, styled } from "@mui/material";
-import CarouselCard5 from "components/carousel-cards/CarouselCard5";
-import Carousel from "components/carousel/Carousel";
-import { H1, H2, H3, H4, H6, Paragraph } from "components/Typography";
-import styles from "./Section2.module.css";
-// ======================================================
-const data = [
-  {
-    title: "Fashionable Collection",
-    imgUrl:
-      "https://cdn.shopify.com/s/files/1/0260/3037/4957/files/hero-image2_4783da1f-2f7f-4663-a24d-c4004e927475_1728x.jpg?v=1654188927",
-    description: "Get Free Shipping on all orders over $99.00",
-    buttonText: "Shop Now",
-    buttonLik: "#",
-  },
-  {
-    title: "Fashionable Collection",
-    imgUrl: "/assets/images/products/nike-black.png",
-    description: "Get Free Shipping on all orders over $99.00",
-    buttonText: "Shop Now",
-    buttonLik: "#",
-  },
-];
+import { Box, Container, styled } from "@mui/material";
+import { H2, H3, H4 } from "components/Typography";
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  bgcolor: "white",
-  // margin: "0 5% 5%",
-  [theme.breakpoints.down("md")]: {
-    margin: "0",
-    marginBottom: "5%",
-  },
+  backgroundColor: "#f8f9fa", // light gray for section contrast
+  borderRadius: "12px",
+  padding: "30px",
+  marginBottom: "40px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
 }));
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   padding: "0 5% !important",
-  [theme.breakpoints.down("md")]: {
-    padding: "0 5% !important",
-  },
 }));
+
 const Section1 = () => {
   return (
-    <StyledContainer
-      sx={{
-        mt: 6,
-      }}
-    >
-      {/* <hr className={styles.linebreak} /> */}
-      <H3 textAlign="center" mb={4} fontSize="40px" fontWeight="400">
-        About US
+    <StyledContainer sx={{ mt: 8, mb: 8 }}>
+      <H3
+        textAlign="center"
+        mb={6}
+        fontSize="40px"
+        fontWeight="600"
+        color="#212121" // dark text
+      >
+        About Us
       </H3>
+
+      {/* Brand Philosophy */}
       <StyledBox>
-        <H2 textAlign="start" mb={4} fontSize="24px" fontWeight="400">
-          Everyone Should Live with a Little More Green
+        <H2 mb={3} fontSize="26px" fontWeight="600" color="#212121">
+          Eyecare Meets Eyewear
         </H2>
-        <H4 textAlign="start" mb={4} fontWeight="400">
-          Blooming is here to help strengthen your relationship with plants. We
-          make buying plants easy by delivering healthy, ready-to-go plants to
-          your door and setting you up with the tips and tricks you need to help
-          your plants thrive. Plants make life better. We make plants easy
+        <H4 fontWeight="400" color="#555555" lineHeight="1.7">
+          At Lensifyco, we believe that eyewear is more than just vision
+          correction—it’s about confidence, style, and complete eye health. Our
+          mission is simple: to combine professional ophthalmologist care,
+          stylish frames, and innovative technology into a seamless experience
+          for everyone.
         </H4>
       </StyledBox>
+
+      {/* Our Story */}
       <StyledBox>
-        <H2 textAlign="start" mb={4} fontSize="24px" fontWeight="400">
+        <H2 mb={3} fontSize="26px" fontWeight="600" color="#212121">
           Our Story
         </H2>
-        <H4 textAlign="start" mb={4} fontWeight="400">
-          Blooming hails from Pattoki, which is the horticulture hub of
-          Pakistan. We have a team of people with best expertise and intimate
-          knowledge of plants. In blooming we took the knowledge and experience
-          of people of pattoki and combined it with his passion for plants to
-          deliver ready-to-go plants direct to your door from the greenhouse
+        <H4 fontWeight="400" color="#555555" lineHeight="1.7">
+          Lensifyco was created with the vision of making eyecare accessible,
+          trustworthy, and stylish. We realized that people often had to choose
+          between quality lenses, premium frames, or reliable consultation. At
+          Lensifyco, you get it all: lenses crafted for clarity, frames that
+          match your style, and free consultation with ophthalmologists who
+          truly care for your eyes.
         </H4>
       </StyledBox>
+
+      {/* Mission */}
       <StyledBox>
-        <H2 textAlign="start" mb={4} fontSize="24px" fontWeight="400">
-          Our Mission:
+        <H2 mb={3} fontSize="26px" fontWeight="600" color="#212121">
+          Our Mission
         </H2>
-        <H4 textAlign="start" mb={4} fontWeight="400">
-          Our goal is to bring you closer with nature. As in this modern world,
-          where we seldom get time to look at nature and appreciate its beauty,
-          Blooming would help you in any possible way to change, we want o bring
-          nature into your life and make it an important aspect of your life
+        <H4 fontWeight="400" color="#555555" lineHeight="1.7">
+          To redefine eyewear by merging healthcare and fashion. From everyday
+          essentials to luxury designs, we aim to provide options for everyone
+          while ensuring that vision care remains at the heart of what we do.
         </H4>
       </StyledBox>
+
+      {/* Try-On */}
       <StyledBox>
-        <H2 textAlign="start" mb={4} fontSize="24px" fontWeight="400">
-          Direct From the Greenhouse
+        <H2 mb={3} fontSize="26px" fontWeight="600" color="#212121">
+          Try Before You Buy
         </H2>
-        <H4 textAlign="start" mb={4} fontWeight="400">
-          When you buy a houseplant from a box store or nursery, it probably
-          spends an average of four weeks traveling from a greenhouse to a
-          drafty warehouse on a hot or cold truck. Then, it’s shipped to nursery
-          in cities where it likely isn’t getting the water, light, or care it
-          needs to thrive. With Blooming, our plants are cared for by plant
-          experts and kept in optimal conditions at our greenhouse where they’re
-          shipped directly to you. So instead of your plant spending 4 weeks in
-          an uncontrolled environment, it spends 2-4 days going from our
-          greenhouse to your front door. This means your plants arrive healthy
-          and already thriving.
+        <H4 fontWeight="400" color="#555555" lineHeight="1.7">
+          With our Virtual Try-On model, you can explore how frames look on you
+          before making a choice. This way, you get the perfect fit—both in
+          style and comfort—without any guesswork.
         </H4>
       </StyledBox>
+
+      {/* Ophthalmologist Care */}
       <StyledBox>
-        <H2 textAlign="start" mb={4} fontSize="24px" fontWeight="400">
-          Shipped to Your Door
+        <H2 mb={3} fontSize="26px" fontWeight="600" color="#212121">
+          Guided by Experts
         </H2>
-        <H4 textAlign="start" mb={4} fontWeight="400">
-          Our plants are shipped with care and experience. We’ve learned how to
-          keep plants at the right temperature, protect their roots, and keep
-          them healthy while they travel from our greenhouse to your home. Our
-          innovative packaging holds plants securely in place, preventing damage
-          and decreasing soil spillage. Most shipments will arrive in under a
-          week and all plants will be healthy, undamaged, and ready for you to
-          enjoy.
+        <H4 fontWeight="400" color="#555555" lineHeight="1.7">
+          Every purchase comes with a free consultation from our experienced
+          ophthalmologists. Because at Lensifyco, protecting your eyesight is
+          just as important as enhancing your style.
         </H4>
       </StyledBox>
+
+      {/* Support */}
       <StyledBox>
-        <H2 textAlign="start" mb={4} fontSize="24px" fontWeight="400">
-          All the Guidance
+        <H2 mb={3} fontSize="26px" fontWeight="600" color="#212121">
+          Here for You
         </H2>
-        <H4 textAlign="start" mb={4} fontWeight="400">
-          Our expertise doesn’t stop once your plant leaves our greenhouse. We
-          are here to help you with any and all of your plant care questions.
-          From simple, customized care instructions included with your plant to
-          real-time expert support, we want to make plant care easy. Feel free
-          to email, chat, or dm us any question you have — the Grow-How® Team is
-          standing by and ready to help!
-        </H4>
-        <H4 textAlign="start" mb={4} fontWeight="400">
-          Email us any time at abc@gmail.com or fill the form below,
-          we will get in touch with you
+        <H4 fontWeight="400" color="#555555" lineHeight="1.7">
+          Whether you’re looking for your first pair of glasses, upgrading to a
+          luxury design, or just need expert advice, our team is here to help.
+          Email us at{" "}
+          <span style={{ color: "#e53935", fontWeight: "600" }}>
+            support@lensifyco.com
+          </span>{" "}
+          or fill out the form below—we’ll be in touch with you right away.
         </H4>
       </StyledBox>
     </StyledContainer>

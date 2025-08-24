@@ -51,7 +51,7 @@ const Footer1 = () => {
                 {/* <AppStore /> */}
               </Grid>
 
-              {/* <Grid item lg={2} md={6} sm={6} xs={12}>
+              {<Grid item lg={2} md={6} sm={6} xs={12}>
                 <Box
                   fontSize="18px"
                   fontWeight="600"
@@ -64,14 +64,14 @@ const Footer1 = () => {
 
                 <div>
                   {aboutLinks.map((item, ind) => (
-                    <StyledLink href="/" key={ind}>
-                      {item}
+                    <StyledLink href={item.url} key={ind}>
+                      {item.name}
                     </StyledLink>
                   ))}
                 </div>
-              </Grid> */}
+              </Grid>}
 
-              {/* <Grid item lg={3} md={6} sm={6} xs={12}>
+              {<Grid item lg={3} md={6} sm={6} xs={12}>
                 <Box
                   fontSize="18px"
                   fontWeight="600"
@@ -84,12 +84,12 @@ const Footer1 = () => {
 
                 <div>
                   {customerCareLinks.map((item, ind) => (
-                    <StyledLink href="/" key={ind}>
-                      {item}
+                    <StyledLink href={item.url} key={ind}>
+                      {item.name}
                     </StyledLink>
                   ))}
                 </div>
-              </Grid> */}
+              </Grid>}
 
               <Grid item lg={3} md={6} sm={6} xs={12}>
                 <Box
@@ -102,16 +102,18 @@ const Footer1 = () => {
                   Contact Us
                 </Box>
 
-                <Box py={0.6} color="grey.500">
-                  70 Washington Square South, New York, NY 10012, United States
+                <Box py={0.6} color="grey.500" sx={{ whiteSpace: "pre-line" }}>
+                ALREHMAN OPTICAL, SHOP#58{"\n"}
+                MOBI PLAZA, OPPOSITE CEROZE CENIMA{"\n"}
+                SADDAR RAWALPINDI
                 </Box>
 
                 <Box py={0.6} color="grey.500">
-                  Email: uilib.help@gmail.com
+                  Email: lensifyco1@gmail.com
                 </Box>
 
                 <Box py={0.6} mb={2} color="grey.500">
-                  Phone: +1 1123 456 780
+                  Phone: +92 332 85 19 715
                 </Box>
 
                 <FlexBox className="flex" mx={-0.625}>
@@ -149,18 +151,28 @@ const Footer1 = () => {
   );
 };
 const aboutLinks = [
-  "Careers",
-  "Our Stores",
-  "Our Cares",
-  "Terms & Conditions",
-  "Privacy Policy",
+  {
+    name: "About Us",
+    url: "/about-us",
+  },
+  {
+    name: "Privacy Policy",
+    url: "/privacy-policy",
+  },
+  {
+    name: "Terms & Conditions",
+    url: "/terms-and-conditions",
+  },
 ];
 const customerCareLinks = [
-  "Help Center",
-  "How to Buy",
-  "Track Your Order",
-  "Corporate & Bulk Purchasing",
-  "Returns & Refunds",
+  { 
+    name: "Free Consultation",
+    url: "/free-consultation",
+  },
+  {
+    name: "Returns & Refunds",
+    url: "/refund-and-returns-policy",
+  },
 ];
 const iconList = [
   {

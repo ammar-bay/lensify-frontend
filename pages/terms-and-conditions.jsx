@@ -4,9 +4,10 @@ import ShopLayout1 from "components/layouts/ShopLayout1";
 import SEO from "components/SEO";
 // import Section1 from "pages-sections/policy/Section1";
 import Section2 from "pages-sections/policy/Section2";
+import TermsAndConditions from "pages-sections/termsandconditions";
 // import Section4 from "pages-sections/policy/Section4";
 
-const bulkbuy = () => {
+const TermsAndConditionsPage = () => {
   const theme = useTheme();
   return (
     <ShopLayout1 topbarBgColor={theme.palette.grey[900]}>
@@ -14,7 +15,7 @@ const bulkbuy = () => {
       <Box bgcolor="#FFF">
         {/* INTRO SECTION */}
         {/* <Section1 /> */}
-        <Section2 />
+        <TermsAndConditions />
         {/* <Section3 /> */}
         {/* <Section4 /> */}
       </Box>
@@ -22,4 +23,4 @@ const bulkbuy = () => {
   );
 };
 
-export default bulkbuy;
+export default TermsAndConditionsPage;
