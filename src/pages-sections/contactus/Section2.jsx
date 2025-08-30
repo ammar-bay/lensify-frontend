@@ -56,11 +56,11 @@ const Section1 = () => {
         </H2>
         <H4 textAlign="start" mb={4} fontWeight="300">
           <b>Email: </b>
-          <a href="mailto:abc@gmail.com">abc@gmail.com</a>
+          <a href="mailto:support@lensifyco.com">support@lensifyco.com</a>
         </H4>
         <H4 textAlign="start" mb={4} fontWeight="300">
           <b>Phone: </b>
-          <a href="tel:+1234567890">+1234567890</a>
+          <a href="tel:+92 332 85 19 715">+92 332 85 19 715</a>
         </H4>
       </StyledBox>
       <Form />

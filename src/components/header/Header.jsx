@@ -21,7 +21,6 @@ import CategoryMenu from "components/categories/CategoryMenu";
 import ShoppingBagOutlined from "components/icons/ShoppingBagOutlined";
 import { useRouter } from "next/router";
 
-// styled component
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
   zIndex: 3,
   position: "relative",
@@ -247,4 +246,5 @@ const Header = ({ isFixed, className, searchInput }) => {
     </HeaderWrapper>
   );
 };
+
 export default Header;

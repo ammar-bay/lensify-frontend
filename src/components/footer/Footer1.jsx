@@ -167,7 +167,7 @@ const aboutLinks = [
 const customerCareLinks = [
   { 
     name: "Free Consultation",
-    url: "/free-consultation",
+    url: "/contact-us",
   },
   {
     name: "Returns & Refunds",
