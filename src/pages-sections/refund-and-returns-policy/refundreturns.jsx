@@ -47,6 +47,12 @@ export default function RefundAndReturnPolicy() {
             03328519715
           </Box>
         </p>
+        <p>
+          Email:{" "}
+          <Box component="span" sx={{ color: "#e53935", fontWeight: "bold" }}>
+            support@lensifyco.com
+          </Box>
+        </p>
       </StyledBox>
 
       {/* Section 2 */}

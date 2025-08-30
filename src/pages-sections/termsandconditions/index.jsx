@@ -104,7 +104,7 @@ export default function TermsAndConditions() {
           If you have any questions about these Terms and Conditions, please
           contact us at{" "}
           <Box component="span" sx={{ color: "#e53935", fontWeight: "bold" }}>
-            support@yourcompany.com
+            support@Lensifyco.com
           </Box>
           .
         </p>

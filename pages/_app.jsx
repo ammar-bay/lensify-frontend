@@ -31,15 +31,13 @@ const App = (props) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <meta charSet="utf-8" />
-        <meta name="description" content="One Stop Shop for Glasses" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <OpenGraphTags />
-        <title>Lensify</title>
-      </Head>
-
-      <SettingsProvider>
+  <meta charSet="utf-8" />
+  <meta name="description" content="Eyewear with Care" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Lensify - Eyewear Collection</title>
+ </Head>
+ <SettingsProvider>
         <AppProvider>
           <MuiTheme>
             <SnackbarProvider>
