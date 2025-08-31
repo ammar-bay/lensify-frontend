@@ -59,7 +59,7 @@ const Wrapper = styled("div")(({ theme }) => ({
 }));
 const MobileCategoryNav = () => {
   const [category, setCategory] = useState(navigations[0]);
-  const [suggestedList, setSuggestedList] = useState([]);
+  // const [suggestedList, setSuggestedList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState(
     navigations[0].menuData
   );
@@ -73,7 +73,7 @@ const MobileCategoryNav = () => {
     }
     setCategory(cat);
   };
-  useEffect(() => setSuggestedList(suggestion), []);
+  // useEffect(() => setSuggestedList(suggestion), []);
   return (
     <Wrapper>
       <Header className="header" searchInput={<SearchInputWithCategory />} />
