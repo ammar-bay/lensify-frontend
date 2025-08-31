@@ -25,6 +25,7 @@ import { useAppContext } from "contexts/AppContext";
 const ProductSearchResult = ({ products }) => {
   const router = useRouter();
   const searchCat = router.query.category || "";
+  const searchBrand = router.query.brand || "";
   console.log(searchCat);
   const [view, setView] = useState("grid");
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -120,6 +121,15 @@ const ProductSearchResult = ({ products }) => {
       category: searchCat.split(",").map((cat) => cat.trim()),
     }));
   }, [searchCat]);
+
+  useEffect(() => {
+    if (!searchBrand) return;
+
+    setProductFilters((prevVal) => ({
+      ...prevVal,
+      brands: [searchBrand],
+    }));
+  }, [searchBrand]);
 
   // sorting
   useEffect(() => {
