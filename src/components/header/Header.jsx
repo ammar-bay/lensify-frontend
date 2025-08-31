@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Badge, Box, Button, Dialog, Drawer, styled } from "@mui/material";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
@@ -55,6 +55,11 @@ const Header = ({ isFixed, className, searchInput }) => {
   const toggleDialog = () => setDialogOpen(!dialogOpen);
   const toggleSidenav = () => setSidenavOpen(!sidenavOpen);
   const toggleSearchBar = () => setSearchBarOpen(!searchBarOpen);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const router = useRouter();
 
@@ -89,6 +94,11 @@ const Header = ({ isFixed, className, searchInput }) => {
       </Drawer>
     </Fragment>
   );
+
+  if (!mounted) {
+    // while mounting, return null or your server-safe fallback
+    return null;
+  }
 
   // FOR SMALLER DEVICE
   if (downMd) {

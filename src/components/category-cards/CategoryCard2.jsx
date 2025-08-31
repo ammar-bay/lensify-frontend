@@ -6,24 +6,30 @@ import { FlexRowCenter } from "components/flex-box";
 
 // ==============================================================
 
-const CategoryCard2 = ({ title, imgUrl, Icon }) => {
+const CategoryCard2 = ({ title, imgUrl, icon: Icon }) => {
   return (
-    <FlexRowCenter flexDirection="column">
-      {imgUrl ? (
-        <LazyImage width={100} height={100} src={imgUrl} alt="banner" />
-      ) : (
-        Icon && <Icon size="48px">{Icon}</Icon>
-      )}
-      <Typography
-        className="ellipsis"
-        textAlign="center"
-        fontSize="11px"
-        lineHeight="1"
-        mt={1}
-      >
-        {title}
-      </Typography>
-    </FlexRowCenter>
+    <div
+      style={{
+        width: "90px",
+      }}
+    >
+      <FlexRowCenter flexDirection="column">
+        {imgUrl ? (
+          <LazyImage width={100} height={100} src={imgUrl} alt="banner" />
+        ) : (
+          Icon && <Icon /> // render the passed component
+        )}
+        <Typography
+          className="ellipsis"
+          textAlign="center"
+          fontSize="11px"
+          lineHeight="2"
+          mt={1}
+        >
+          {title}
+        </Typography>
+      </FlexRowCenter>
+    </div>
   );
 };
 export default CategoryCard2;

@@ -25,6 +25,7 @@ import { useAppContext } from "contexts/AppContext";
 const ProductSearchResult = ({ products }) => {
   const router = useRouter();
   const searchCat = router.query.category || "";
+  console.log(searchCat);
   const [view, setView] = useState("grid");
   const [filteredProducts, setFilteredProducts] = useState(products);
   const categories = [
@@ -77,7 +78,7 @@ const ProductSearchResult = ({ products }) => {
       featured,
     } = productFilters;
 
-
+    console.log(productFilters);
 
     setFilteredProducts(
       products.filter((p) => {
@@ -88,10 +89,12 @@ const ProductSearchResult = ({ products }) => {
           p.color?.name,
           ...p.categories?.map((c) => c.name),
         ];
-        console.log("FIEMLKNLDFN", fields)
+
         return (
           (!q ||
-            fields?.filter(Boolean)?.some((v) => v?.toLowerCase()?.includes(q))) &&
+            fields
+              ?.filter(Boolean)
+              ?.some((v) => v?.toLowerCase()?.includes(q))) &&
           (!category.length ||
             p.categories?.some((c) => category?.includes(c.name))) &&
           (!brands?.length || brands?.includes(p?.brand?.name)) &&
@@ -108,14 +111,17 @@ const ProductSearchResult = ({ products }) => {
     );
   }, [state?.searchVal, products, productFilters]);
 
+  //
   useEffect(() => {
     if (!searchCat) return;
+
     setProductFilters((prevVal) => ({
       ...prevVal,
-      category: [...prevVal.category, searchCat],
+      category: searchCat.split(",").map((cat) => cat.trim()),
     }));
   }, [searchCat]);
 
+  // sorting
   useEffect(() => {
     if (!sort) return;
 

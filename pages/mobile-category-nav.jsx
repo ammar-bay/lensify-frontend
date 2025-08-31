@@ -9,6 +9,7 @@ import CategoryCard2 from "components/category-cards/CategoryCard2";
 import SearchInputWithCategory from "components/search-box/SearchInputWithCategory";
 import { layoutConstant } from "utils/constants";
 import navigations from "data/navigations";
+import { useRouter } from "next/router";
 
 // styled component
 const Wrapper = styled("div")(({ theme }) => ({
@@ -57,13 +58,19 @@ const Wrapper = styled("div")(({ theme }) => ({
   },
 }));
 const MobileCategoryNav = () => {
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState(navigations[0]);
   const [suggestedList, setSuggestedList] = useState([]);
-  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState(
+    navigations[0].menuData
+  );
+  const router = useRouter();
   const handleCategoryClick = (cat) => () => {
     let menuData = cat.menuData;
     if (menuData) setSubCategoryList(menuData.categories || menuData);
-    else setSubCategoryList([]);
+    else {
+      setSubCategoryList([]);
+      router.push(cat.href);
+    }
     setCategory(cat);
   };
   useEffect(() => setSuggestedList(suggestion), []);
@@ -98,7 +105,7 @@ const MobileCategoryNav = () => {
       </Box>
 
       <Box className="container">
-        <Typography fontWeight="600" fontSize="15px" mb={2}>
+        {/* <Typography fontWeight="600" fontSize="15px" mb={2}>
           Recommended Categories
         </Typography>
 
@@ -112,7 +119,7 @@ const MobileCategoryNav = () => {
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </Box> */}
 
         {category?.menuComponent === "MegaMenu1" ? (
           subCategoryList.map((item, ind) => (
@@ -140,11 +147,11 @@ const MobileCategoryNav = () => {
             </Fragment>
           ))
         ) : (
-          <Box mb={4}>
+          <Box mb={4} mt={1}>
             <Grid container spacing={3}>
               {subCategoryList.map((item, ind) => (
                 <Grid item lg={1} md={2} sm={3} xs={4} key={ind}>
-                  <Link href="/product/search/mobile">
+                  <Link href={item.href}>
                     <CategoryCard2 {...item} />
                   </Link>
                 </Grid>
@@ -158,46 +165,46 @@ const MobileCategoryNav = () => {
     </Wrapper>
   );
 };
-const suggestion = [
-  {
-    title: "Belt",
-    href: "/belt",
-    imgUrl: "/assets/images/products/categories/belt.png",
-  },
-  {
-    title: "Hat",
-    href: "/Hat",
-    imgUrl: "/assets/images/products/categories/hat.png",
-  },
-  {
-    title: "Watches",
-    href: "/Watches",
-    imgUrl: "/assets/images/products/categories/watch.png",
-  },
-  {
-    title: "Sunglasses",
-    href: "/Sunglasses",
-    imgUrl: "/assets/images/products/categories/sunglass.png",
-  },
-  {
-    title: "Sneakers",
-    href: "/Sneakers",
-    imgUrl: "/assets/images/products/categories/sneaker.png",
-  },
-  {
-    title: "Sandals",
-    href: "/Sandals",
-    imgUrl: "/assets/images/products/categories/sandal.png",
-  },
-  {
-    title: "Formal",
-    href: "/Formal",
-    imgUrl: "/assets/images/products/categories/shirt.png",
-  },
-  {
-    title: "Casual",
-    href: "/Casual",
-    imgUrl: "/assets/images/products/categories/t-shirt.png",
-  },
-];
+// const suggestion = [
+//   {
+//     title: "Belt",
+//     href: "/belt",
+//     imgUrl: "/assets/images/products/categories/belt.png",
+//   },
+//   {
+//     title: "Hat",
+//     href: "/Hat",
+//     imgUrl: "/assets/images/products/categories/hat.png",
+//   },
+//   {
+//     title: "Watches",
+//     href: "/Watches",
+//     imgUrl: "/assets/images/products/categories/watch.png",
+//   },
+//   {
+//     title: "Sunglasses",
+//     href: "/Sunglasses",
+//     imgUrl: "/assets/images/products/categories/sunglass.png",
+//   },
+//   {
+//     title: "Sneakers",
+//     href: "/Sneakers",
+//     imgUrl: "/assets/images/products/categories/sneaker.png",
+//   },
+//   {
+//     title: "Sandals",
+//     href: "/Sandals",
+//     imgUrl: "/assets/images/products/categories/sandal.png",
+//   },
+//   {
+//     title: "Formal",
+//     href: "/Formal",
+//     imgUrl: "/assets/images/products/categories/shirt.png",
+//   },
+//   {
+//     title: "Casual",
+//     href: "/Casual",
+//     imgUrl: "/assets/images/products/categories/t-shirt.png",
+//   },
+// ];
 export default MobileCategoryNav;
