@@ -26,7 +26,6 @@ const ProductSearchResult = ({ products }) => {
   const router = useRouter();
   const searchCat = router.query.category || "";
   const searchBrand = router.query.brand || "";
-  console.log(searchCat);
   const [view, setView] = useState("grid");
   const [filteredProducts, setFilteredProducts] = useState(products);
   const categories = [
@@ -78,8 +77,6 @@ const ProductSearchResult = ({ products }) => {
       bestselling,
       featured,
     } = productFilters;
-
-    console.log(productFilters);
 
     setFilteredProducts(
       products.filter((p) => {

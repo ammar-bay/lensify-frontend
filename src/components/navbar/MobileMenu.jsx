@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Clear, ExpandMore, Menu } from "@mui/icons-material";
 import {
   Accordion,
@@ -11,6 +11,7 @@ import { H6 } from "components/Typography";
 import Scrollbar from "components/Scrollbar";
 import { NavLink } from "components/nav-link";
 import navbarNavigations from "data/navbarNavigations";
+import { useRouter } from "next/router";
 const MobileMenu = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -78,14 +79,20 @@ const MobileMenu = () => {
       }
       if (item.extLink) {
         return (
-          <H6 key={index} py={1}>
+          <H6
+            key={index}
+            py={1}
+            onClick={() => {
+              setOpenDrawer(false); // always close, even if same URL
+            }}
+          >
             <NavLink href={item.url}>{item.title}</NavLink>
           </H6>
         );
       }
       return (
         <Box key={index} py={1}>
-          <NavLink href={item.url}>{item.title}</NavLink>
+          <NavLink href={item.url}>{item.title} ammar</NavLink>
         </Box>
       );
     });
