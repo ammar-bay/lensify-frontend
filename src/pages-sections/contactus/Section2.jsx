@@ -38,7 +38,13 @@ const StyledContainer = styled(Container)(({ theme }) => ({
     padding: "0 5% !important",
   },
 }));
+
+
+
 const Section1 = () => {
+
+  
+
   return (
     <StyledContainer
       sx={{

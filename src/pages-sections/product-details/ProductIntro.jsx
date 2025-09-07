@@ -143,7 +143,7 @@ const ProductIntro = ({ product }) => {
       <Grid container spacing={3} justifyContent="space-around">
         <Grid item md={6} xs={12} alignItems="center">
           {/* Wrap main image with swipe handler */}
-          <FlexBox justifyContent="center" mb={6} {...handlers}>
+          <Box justifyContent="center" mb={6} {...handlers}>
             <LazyImage
               alt={title}
               width={300}
@@ -155,7 +155,7 @@ const ProductIntro = ({ product }) => {
                 borderRadius: "5px",
               }}
             />
-          </FlexBox>
+          </Box>
 
           {/* Thumbnails */}
           <FlexBox overflow="auto">

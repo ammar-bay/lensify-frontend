@@ -17,9 +17,9 @@ const PaymentForm = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleFormSubmit = async (values) => {
-    // console.log(values);
+    console.log(values);
     try {
-      const response = await axios.post("/aboutus", values);
+      const response = await axios.post("/contact", values);
       console.log(response.data);
       enqueueSnackbar("Form Submitted Successfully", { variant: "success" });
     } catch (error) {
@@ -87,6 +87,7 @@ const PaymentForm = () => {
                   <Grid item sm={6} xs={12}>
                     <TextField
                       fullWidth
+                      required
                       name="name"
                       color="primary"
                       label="Name"
@@ -99,6 +100,7 @@ const PaymentForm = () => {
                   <Grid item sm={6} xs={12}>
                     <TextField
                       fullWidth
+                      required
                       name="email"
                       label="Email"
                       placeholder="email"
@@ -111,6 +113,7 @@ const PaymentForm = () => {
                   <Grid item sm={6} xs={12}>
                     <TextField
                       fullWidth
+                      required
                       name="phone"
                       onBlur={handleBlur}
                       value={values.phone}
@@ -133,6 +136,7 @@ const PaymentForm = () => {
                   <Grid item sm={6} xs={12}>
                     <TextField
                       fullWidth
+                      // required
                       name="comment"
                       onBlur={handleBlur}
                       value={values.comment}
