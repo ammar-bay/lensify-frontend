@@ -17,6 +17,7 @@ import { FlexBox, FlexRowCenter } from "../../components/flex-box";
 import { urlForImage } from "../../../sanity/lib/image";
 import PrescriptionDetails, { presOptions } from "./PrescriptionDetails";
 import { useSnackbar } from "notistack";
+import { useSwipeable } from "react-swipeable";
 
 // ================================================================
 
@@ -67,9 +68,24 @@ const ProductIntro = ({ product }) => {
   // HANDLE SELECT IMAGE
   const handleImageClick = (ind) => () => setSelectedImage(ind);
 
+  // swipe handlers
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      setSelectedImage((prev) =>
+        prev < product.images.length - 1 ? prev + 1 : 0
+      );
+    },
+    onSwipedRight: () => {
+      setSelectedImage((prev) =>
+        prev > 0 ? prev - 1 : product.images.length - 1
+      );
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true, // also works with mouse drag (nice for testing on desktop)
+  });
+
   // HANDLE CHANGE CART
   const handleCartAmountChange = (amount, increasing) => () => {
-    console.log(amount);
     if (!selectedType && increasing)
       return enqueueSnackbar("Select a Lens Type", { variant: "error" });
 
@@ -83,7 +99,12 @@ const ProductIntro = ({ product }) => {
       increasing &&
       selectedType === lensType[1] &&
       ((presDetails.type === presOptions[0] &&
-        ((!presDetails.sphereR || !presDetails.axisR || !presDetails.cylinderR) || (!presDetails.sphereL || !presDetails.axisL || !presDetails.cylinderL))) ||
+        (!presDetails.sphereR ||
+          !presDetails.axisR ||
+          !presDetails.cylinderR ||
+          !presDetails.sphereL ||
+          !presDetails.axisL ||
+          !presDetails.cylinderL)) ||
         (presDetails.type === presOptions[1] && !presDetails?.prescriptionFile))
     )
       return enqueueSnackbar("Please Fill the prescription details correctly.");
@@ -121,7 +142,8 @@ const ProductIntro = ({ product }) => {
     <Box width="100%">
       <Grid container spacing={3} justifyContent="space-around">
         <Grid item md={6} xs={12} alignItems="center">
-          <FlexBox justifyContent="center" mb={6}>
+          {/* Wrap main image with swipe handler */}
+          <FlexBox justifyContent="center" mb={6} {...handlers}>
             <LazyImage
               alt={title}
               width={300}
@@ -135,6 +157,7 @@ const ProductIntro = ({ product }) => {
             />
           </FlexBox>
 
+          {/* Thumbnails */}
           <FlexBox overflow="auto">
             {product.images.map((url, ind) => (
               <FlexRowCenter
@@ -146,9 +169,7 @@ const ProductIntro = ({ product }) => {
                 border="1px solid"
                 borderRadius="10px"
                 ml={ind === 0 ? "auto" : 0}
-                style={{
-                  cursor: "pointer",
-                }}
+                style={{ cursor: "pointer" }}
                 onClick={handleImageClick(ind)}
                 mr={ind === product.images.length - 1 ? "auto" : "10px"}
                 borderColor={

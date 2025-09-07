@@ -28,6 +28,11 @@ const PaymentForm = () => {
   // console.log(state);
   const handlePlaceOrder = async () => {
     if (isLoading) return;
+    if (paymentMethod === "bank-transfer" && !paymentReceipt)
+      enqueueSnackbar(
+        "Please upload the payment receipt for the bank transfer!",
+        { variant: "error" }
+      );
 
     if (state.cart.length === 0) {
       return enqueueSnackbar("Cart is empty", { variant: "error" });
@@ -43,7 +48,7 @@ const PaymentForm = () => {
       formData.append("paymentMethod", paymentMethod);
 
       if (paymentMethod === "bank-transfer") {
-        formData.append("paymentReceipt", paymentReceipt);
+        formData.append("paymentReceipt", paymentReceipt); // file
       }
 
       if (state?.user) {
@@ -61,16 +66,28 @@ const PaymentForm = () => {
         formData.append(`cart[${idx}][lensCat]`, item.lensCat);
         formData.append(`cart[${idx}][lasserToggle]`, item.lasserToggle);
         formData.append(
-          `cart[${idx}][presDetails][sphere]`,
-          item.presDetails?.sphere
+          `cart[${idx}][presDetails][sphereL]`,
+          item.presDetails?.sphereL
         );
         formData.append(
-          `cart[${idx}][presDetails][cylinder]`,
-          item.presDetails?.cylinder
+          `cart[${idx}][presDetails][cylinderL]`,
+          item.presDetails?.cylinderL
         );
         formData.append(
-          `cart[${idx}][presDetails][axis]`,
-          item.presDetails?.axis
+          `cart[${idx}][presDetails][axisL]`,
+          item.presDetails?.axisL
+        );
+        formData.append(
+          `cart[${idx}][presDetails][sphereR]`,
+          item.presDetails?.sphereR
+        );
+        formData.append(
+          `cart[${idx}][presDetails][cylinderR]`,
+          item.presDetails?.cylinderR
+        );
+        formData.append(
+          `cart[${idx}][presDetails][axisR]`,
+          item.presDetails?.axisR
         );
         formData.append(
           `cart[${idx}][presDetails][type]`,
@@ -81,7 +98,7 @@ const PaymentForm = () => {
         if (item.presDetails?.prescriptionFile) {
           formData.append(
             `cart[${idx}][presDetails][prescriptionFile]`,
-            item.presDetails?.prescriptionFile
+            item.presDetails?.prescriptionFile // file
           );
         }
       });

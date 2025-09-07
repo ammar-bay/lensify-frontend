@@ -55,6 +55,7 @@
     "react-dropzone": "^14.2.3",
     "react-i18next": "^12.2.0",
     "react-scroll": "^1.8.9",
+    "react-swipeable": "^7.0.2",
     "sanity": "^3.20.2",
     "sharp": "^0.32.0",
     "simplebar-react": "^3.2.3",
