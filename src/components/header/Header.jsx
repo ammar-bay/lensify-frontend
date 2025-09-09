@@ -64,7 +64,7 @@ const Header = ({ isFixed, className, searchInput }) => {
   const router = useRouter();
 
   const handleConsultation = () => {
-    router.push("/contact-us");
+    router.push("/free-consultation");
   };
 
   // LOGIN AND MINICART DRAWER
@@ -130,7 +130,7 @@ const Header = ({ isFixed, className, searchInput }) => {
             </Box>
 
             {/* MIDDLE CONTENT - LOGO */}
-            <Link href="/free-consultation">
+            <Link href="/">
               <Image height={70} src="/assets/images/logo.png" alt="logo" />
             </Link>
 
