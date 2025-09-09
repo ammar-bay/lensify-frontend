@@ -109,7 +109,7 @@ const Footer1 = () => {
                 </Box>
 
                 <Box py={0.6} color="grey.500">
-                  Email: lensifyco1@gmail.com
+                  Email: support@lensifyco.com
                 </Box>
 
                 <Box py={0.6} mb={2} color="grey.500">

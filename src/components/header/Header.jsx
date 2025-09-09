@@ -130,7 +130,7 @@ const Header = ({ isFixed, className, searchInput }) => {
             </Box>
 
             {/* MIDDLE CONTENT - LOGO */}
-            <Link href="/">
+            <Link href="/free-consultation">
               <Image height={70} src="/assets/images/logo.png" alt="logo" />
             </Link>
 
