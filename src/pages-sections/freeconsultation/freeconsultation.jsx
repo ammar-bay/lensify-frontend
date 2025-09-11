@@ -56,7 +56,7 @@ const FreeConsultation = () => {
       if (!formData.appointmentDate) return;
       try {
         const res = await axios.get(
-          `http://localhost:3500/api/appointments?date=${formData.appointmentDate}`
+          `http://localhost:3500/appointments?date=${formData.appointmentDate}`
         );
         setBookedTimes(res.data.map(appt => dayjs(appt.appointmentDateTime).format("h:mm A")));
       } catch (err) {
@@ -108,7 +108,7 @@ const FreeConsultation = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3500/api/appointments",
+        "http://localhost:3500/appointments",
         formData,
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
