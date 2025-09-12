@@ -155,7 +155,7 @@ const FreeConsultation = () => {
           {/* Full Name */}
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Full Name *"
+              label="Full Name"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -167,7 +167,7 @@ const FreeConsultation = () => {
           {/* Phone */}
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Phone *"
+              label="Phone"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -232,6 +232,7 @@ const FreeConsultation = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
+                required
               >
                 <MenuItem value="">Select</MenuItem>
                 <MenuItem value="Male">Male</MenuItem>
@@ -258,8 +259,8 @@ const FreeConsultation = () => {
 
           {/* Appointment Time */}
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Preferred Time *</InputLabel>
+            <FormControl fullWidth required>
+              <InputLabel>Preferred Time</InputLabel>
               <Select
                 name="appointmentTime"
                 value={formData.appointmentTime}
@@ -279,10 +280,11 @@ const FreeConsultation = () => {
           {/* Preferred Contact */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth required>
-              <InputLabel>Preferred Contact Method *</InputLabel>
+              <InputLabel>Preferred Contact Method</InputLabel>
               <Select
                 name="preferredContact"
                 value={formData.preferredContact}
+                required
                 onChange={handleChange}
               >
                 <MenuItem value="">Select</MenuItem>
@@ -333,6 +335,7 @@ const FreeConsultation = () => {
                     name="consent"
                     checked={formData.consent}
                     onChange={handleChange}
+                    required
                   />
                 }
                 label="I agree to share my data for consultation *"
