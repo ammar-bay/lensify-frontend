@@ -226,7 +226,7 @@ const FreeConsultation = () => {
 
           {/* Gender */}
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
+            <FormControl fullWidth required>
               <InputLabel>Gender</InputLabel>
               <Select
                 name="gender"
