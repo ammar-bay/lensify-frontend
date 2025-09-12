@@ -344,7 +344,7 @@ const FreeConsultation = () => {
           </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth>
-              <Button type="submit" variant="contained" size="large">
+              <Button type="submit" variant="contained" size="large" color="primary">
                 Book Appointment
               </Button>
             </FormControl>
