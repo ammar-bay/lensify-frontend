@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { useEffect, useState } from "react";
 
 import {
-  Grid,
-  TextField,
-  Typography,
-  Paper,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Button,
-  Snackbar,
-  Alert
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
-import axios from "axios";
+import { useSnackbar } from "notistack";
+import axios from "utils/axios";
 
 const FreeConsultation = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -36,7 +36,6 @@ const FreeConsultation = () => {
 
   const [availableTimes, setAvailableTimes] = useState([]);
   const [bookedTimes, setBookedTimes] = useState([]);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
   // Calculate age automatically
   useEffect(() => {
@@ -56,9 +55,13 @@ const FreeConsultation = () => {
       if (!formData.appointmentDate) return;
       try {
         const res = await axios.get(
-          `http://localhost:3500/api/appointments?date=${formData.appointmentDate}`
+          `/appointments?date=${formData.appointmentDate}`
         );
-        setBookedTimes(res.data.map(appt => dayjs(appt.appointmentDateTime).format("h:mm A")));
+        setBookedTimes(
+          res.data.map((appt) =>
+            dayjs(appt.appointmentDateTime).format("h:mm A")
+          )
+        );
       } catch (err) {
         console.error("Could not fetch booked slots", err);
         setBookedTimes([]);
@@ -78,7 +81,10 @@ const FreeConsultation = () => {
 
     for (let hour = 9; hour <= 22; hour++) {
       ["00", "15", "30", "45"].forEach((minute) => {
-        let slot = dayjs(selectedDate).hour(hour).minute(parseInt(minute)).second(0);
+        let slot = dayjs(selectedDate)
+          .hour(hour)
+          .minute(parseInt(minute))
+          .second(0);
 
         // Skip past times if today
         if (selectedDate.isSame(now, "day") && slot.isBefore(nowPlus3)) return;
@@ -107,12 +113,13 @@ const FreeConsultation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:3500/api/appointments",
-        formData,
-        { headers: { "Content-Type": "application/json" }, withCredentials: true }
-      );
-      setSnackbar({ open: true, message: res.data.message, severity: "success" });
+      const res = await axios.post("/appointments", formData, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      enqueueSnackbar("Appointment booked successfully", {
+        variant: "success",
+      });
 
       // Reset form
       setFormData({
@@ -133,7 +140,7 @@ const FreeConsultation = () => {
       setBookedTimes([]);
     } catch (err) {
       const msg = err.response?.data?.message || "Server error";
-      setSnackbar({ open: true, message: msg, severity: "error" });
+      enqueueSnackbar(msg, { variant: "error" });
     }
   };
 
@@ -148,7 +155,7 @@ const FreeConsultation = () => {
           {/* Full Name */}
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Full Name *"
+              label="Full Name"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -160,7 +167,7 @@ const FreeConsultation = () => {
           {/* Phone */}
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Phone *"
+              label="Phone"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -219,9 +226,14 @@ const FreeConsultation = () => {
 
           {/* Gender */}
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
+            <FormControl fullWidth required>
               <InputLabel>Gender</InputLabel>
-              <Select name="gender" value={formData.gender} onChange={handleChange}>
+              <Select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                required
+              >
                 <MenuItem value="">Select</MenuItem>
                 <MenuItem value="Male">Male</MenuItem>
                 <MenuItem value="Female">Female</MenuItem>
@@ -247,8 +259,8 @@ const FreeConsultation = () => {
 
           {/* Appointment Time */}
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Preferred Time *</InputLabel>
+            <FormControl fullWidth required>
+              <InputLabel>Preferred Time</InputLabel>
               <Select
                 name="appointmentTime"
                 value={formData.appointmentTime}
@@ -268,10 +280,11 @@ const FreeConsultation = () => {
           {/* Preferred Contact */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth required>
-              <InputLabel>Preferred Contact Method *</InputLabel>
+              <InputLabel>Preferred Contact Method</InputLabel>
               <Select
                 name="preferredContact"
                 value={formData.preferredContact}
+                required
                 onChange={handleChange}
               >
                 <MenuItem value="">Select</MenuItem>
@@ -286,7 +299,11 @@ const FreeConsultation = () => {
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>How did you hear about us?</InputLabel>
-              <Select name="referral" value={formData.referral} onChange={handleChange}>
+              <Select
+                name="referral"
+                value={formData.referral}
+                onChange={handleChange}
+              >
                 <MenuItem value="">Select</MenuItem>
                 <MenuItem value="Google">Google</MenuItem>
                 <MenuItem value="Social Media">Social Media</MenuItem>
@@ -311,37 +328,29 @@ const FreeConsultation = () => {
 
           {/* Consent & Submit */}
           <Grid item xs={12}>
-  <FormControl fullWidth>
-    <FormControlLabel
-      control={
-        <Checkbox
-          name="consent"
-          checked={formData.consent}
-          onChange={handleChange}
-        />
-      }
-      label="I agree to share my data for consultation *"
-    />
-  </FormControl>
-</Grid>
+            <FormControl fullWidth>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleChange}
+                    required
+                  />
+                }
+                label="I agree to share my data for consultation *"
+              />
+            </FormControl>
+          </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth>
-              <Button type="submit" variant="contained" size="large">
+              <Button type="submit" variant="contained" size="large" color="primary">
                 Book Appointment
               </Button>
             </FormControl>
           </Grid>
         </Grid>
       </form>
-     <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      >
-        <Alert severity={snackbar.severity} sx={{ width: "100%" }}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </Paper>
   );
 };
