@@ -6,6 +6,7 @@ import nProgress from "nprogress";
 import { CacheProvider } from "@emotion/react";
 import { appWithTranslation } from "next-i18next";
 
+
 import RTL from "components/RTL";
 import MuiTheme from "theme/MuiTheme";
 import { AppProvider } from "contexts/AppContext";
