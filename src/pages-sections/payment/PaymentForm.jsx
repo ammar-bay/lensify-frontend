@@ -29,7 +29,7 @@ const PaymentForm = () => {
   const handlePlaceOrder = async () => {
     if (isLoading) return;
     if (paymentMethod === "bank-transfer" && !paymentReceipt)
-      enqueueSnackbar(
+      return enqueueSnackbar(
         "Please upload the payment receipt for the bank transfer!",
         { variant: "error" }
       );
@@ -108,8 +108,8 @@ const PaymentForm = () => {
       });
 
       enqueueSnackbar("Order placed successfully", { variant: "success" });
-      dispatch({ type: "EMPTY_CART" });
-      router.push("/");
+      // dispatch({ type: "EMPTY_CART" });
+      // router.push("/");
     } catch (error) {
       console.log(error);
       enqueueSnackbar("Could not place order, try again", { variant: "error" });
