@@ -12,7 +12,7 @@ const ProductList1 = ({ products }) => {
       <Grid container spacing={3}>
         {products.map((item) => (
           <Grid item lg={4} sm={6} xs={12} key={item._id}>
-            <ProductCard1
+          <ProductCard1
               id={item._id}
               slug={item.slug.current}
               title={item.name}

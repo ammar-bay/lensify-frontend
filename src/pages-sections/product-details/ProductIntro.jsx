@@ -11,7 +11,7 @@ import {
 import LazyImage from "components/LazyImage";
 import { H1, H2, H3, H6, Span } from "components/Typography";
 import { useAppContext } from "contexts/AppContext";
-import { currency } from "lib";
+import { calculateDiscount, currency } from "lib";
 import { useEffect, useState } from "react";
 import { FlexBox, FlexRowCenter } from "../../components/flex-box";
 import { urlForImage } from "../../../sanity/lib/image";
@@ -24,7 +24,15 @@ import { useSwipeable } from "react-swipeable";
 // ================================================================
 
 const ProductIntro = ({ product }) => {
-  const { _id: id, price, name: title, images, slug, thumbnail } = product;
+  const {
+    _id: id,
+    price,
+    name: title,
+    images,
+    slug,
+    thumbnail,
+    discount,
+  } = product;
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedCat, setSelectedCat] = useState();
@@ -119,6 +127,7 @@ const ProductIntro = ({ product }) => {
         price: productPrice,
         qty: amount,
         name: title,
+        discount,
         imgUrl: urlForImage(thumbnail).url(),
         id,
         slug: slug.current,
@@ -269,9 +278,21 @@ const ProductIntro = ({ product }) => {
           />
 
           <Box pt={1} mb={3}>
-            <H2 color="primary.main" mb={0.5} lineHeight="1">
-              {currency(productPrice)}
-            </H2>
+            <FlexBox alignItems="center" gap={1} mt={0.5}>
+              <Box fontWeight="600" color="primary.main">
+                <H2 fontWeight={700} py={0.5}>
+                  {discount
+                    ? calculateDiscount(price, discount)
+                    : currency(price)}
+                </H2>
+              </Box>
+
+              {discount && (
+                <Box color="grey.600" fontWeight="600">
+                  <del>{currency(price)}</del>
+                </Box>
+              )}
+            </FlexBox>
             <Box color={product.instock ? "inherit" : "red"}>
               {product.instock ? "Stock Available" : "Out of Stock"}
             </Box>

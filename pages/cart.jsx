@@ -13,8 +13,14 @@ import { currency } from "lib";
 const Cart = () => {
   const { state } = useAppContext();
   const cartList = state.cart;
-  const getTotalPrice = () =>
-    cartList.reduce((accum, item) => accum + item.price * item.qty, 0);
+  const getTotalPrice = () => {
+    return cartList.reduce((accum, item) => {
+      const price = item?.discount
+        ? Number((item.price - item.price * (item.discount / 100)).toFixed(2))
+        : item.price;
+      return accum + price * item.qty;
+    }, 0);
+  };
   return (
     <CheckoutNavLayout>
       <SEO title="Cart" />

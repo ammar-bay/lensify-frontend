@@ -39,7 +39,7 @@ const PaymentForm = () => {
     }
 
     setIsLoading(true);
-    // console.log(state);
+    console.log(state);
     try {
       const formData = new FormData();
 
@@ -108,8 +108,8 @@ const PaymentForm = () => {
       });
 
       enqueueSnackbar("Order placed successfully", { variant: "success" });
-      // dispatch({ type: "EMPTY_CART" });
-      // router.push("/");
+      dispatch({ type: "EMPTY_CART" });
+      router.push("/");
     } catch (error) {
       console.log(error);
       enqueueSnackbar("Could not place order, try again", { variant: "error" });

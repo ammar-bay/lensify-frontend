@@ -14,7 +14,7 @@ import { FlexBetween, FlexBox } from "components/flex-box";
 import { H5, Paragraph, Tiny } from "components/Typography";
 import CartBag from "components/icons/CartBag";
 import { useAppContext } from "contexts/AppContext";
-import { currency } from "lib";
+import { calculateDiscount, currency } from "lib";
 
 // =========================================================
 
@@ -35,12 +35,20 @@ const MiniCart = ({ toggleSidenav }) => {
     });
   };
   const getTotalPrice = () => {
-    return cartList.reduce((accum, item) => accum + item.price * item.qty, 0);
+    return cartList.reduce((accum, item) => {
+      const price = item?.discount
+        ? Number((item.price - item.price * (item.discount / 100)).toFixed(2))
+        : item.price;
+      return accum + price * item.qty;
+    }, 0);
   };
   const handleNavigate = (path) => () => {
     toggleSidenav();
     push(path);
   };
+
+  console.log("cartList", cartList);
+
   return (
     <Box width="100%" maxWidth={380}>
       <Box
@@ -156,7 +164,10 @@ const MiniCart = ({ toggleSidenav }) => {
               </Link>
 
               <Tiny color="grey.600">
-                {currency(item.price)} x {item.qty}
+                {item?.discount
+                  ? calculateDiscount(item?.price, item?.discount)
+                  : currency(item?.price)}{" "}
+                x {item.qty}
               </Tiny>
 
               <Box
@@ -165,7 +176,27 @@ const MiniCart = ({ toggleSidenav }) => {
                 color="primary.main"
                 mt={0.5}
               >
-                {currency(item.qty * item.price)}
+                <Box
+                  fontWeight={600}
+                  fontSize="14px"
+                  color="primary.main"
+                  mt={0.5}
+                >
+                  <Box fontWeight="600" color="primary.main">
+                    {item?.discount
+                      ? calculateDiscount(
+                          item?.price * item.qty,
+                          item?.discount
+                        )
+                      : currency(item?.price * item.qty)}
+                  </Box>
+
+                  {item?.discount && (
+                    <Box color="grey.600" fontWeight="600">
+                      <del>{currency(item?.price * item.qty)}</del>
+                    </Box>
+                  )}
+                </Box>
               </Box>
             </Box>
 

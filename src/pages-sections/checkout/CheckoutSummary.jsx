@@ -6,13 +6,17 @@ import { currency } from "lib";
 
 const shippingCost = 1000;
 
-
 const CheckoutSummary = () => {
   const { state, dispatch } = useAppContext();
   const cartList = state.cart;
 
   const getSubTotalPrice = () => {
-    return cartList.reduce((accum, item) => accum + item.price * item.qty, 0);
+    return cartList.reduce((accum, item) => {
+      const price = item?.discount
+        ? Number((item.price - item.price * (item.discount / 100)).toFixed(2))
+        : item.price;
+      return accum + price * item.qty;
+    }, 0);
   };
 
   const getTotalPrice = () => {
