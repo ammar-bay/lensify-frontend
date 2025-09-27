@@ -39,7 +39,7 @@ const PaymentForm = () => {
     }
 
     setIsLoading(true);
-    console.log(state);
+    // console.log(state);
     try {
       const formData = new FormData();
 

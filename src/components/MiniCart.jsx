@@ -47,8 +47,6 @@ const MiniCart = ({ toggleSidenav }) => {
     push(path);
   };
 
-  console.log("cartList", cartList);
-
   return (
     <Box width="100%" maxWidth={380}>
       <Box
