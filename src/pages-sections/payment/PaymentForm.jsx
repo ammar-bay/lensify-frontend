@@ -62,6 +62,7 @@ const PaymentForm = () => {
         formData.append(`cart[${idx}][slug]`, item.slug);
         formData.append(`cart[${idx}][imgUrl]`, item.imgUrl);
         formData.append(`cart[${idx}][price]`, item.price);
+        formData.append(`cart[${idx}][discount]`, item.discount || 0);
         formData.append(`cart[${idx}][lensType]`, item.lensType);
         formData.append(`cart[${idx}][lensCat]`, item.lensCat);
         formData.append(`cart[${idx}][lasserToggle]`, item.lasserToggle);
