@@ -257,4 +257,5 @@ const Header = ({ isFixed, className, searchInput }) => {
   );
 };
 
+
 export default Header;
