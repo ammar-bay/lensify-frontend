@@ -100,7 +100,7 @@ const customerCareLinks = [
 const iconList = [
   {
     icon: Facebook,
-    url: "https://www.facebook.com/UILibOfficial",
+    url: "https://web.facebook.com/profile.php?id=61579979561538&_rdc=1&_rdr#",
   },
   {
     icon: Twitter,
@@ -116,7 +116,7 @@ const iconList = [
   },
   {
     icon: Instagram,
-    url: "https://www.instagram.com/uilibofficial/",
+    url: "https://www.instagram.com/lensify_co",
   },
 ];
 export default Footer2;

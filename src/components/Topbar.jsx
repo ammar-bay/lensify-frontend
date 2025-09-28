@@ -176,12 +176,12 @@ const socialLinks = [
   {
     id: 2,
     Icon: Facebook,
-    url: "#",
+    url: "https://web.facebook.com/profile.php?id=61579979561538&_rdc=1&_rdr#",
   },
   {
     id: 3,
     Icon: Instagram,
-    url: "#",
+    url: "https://www.instagram.com/lensify_co",
   },
   {
     id: 3,

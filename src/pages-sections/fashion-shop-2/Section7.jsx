@@ -25,7 +25,7 @@ const Section7 = () => {
       </H1>
 
       <Paragraph fontWeight={600} fontSize={18} mb={4}>
-        Free shipping on orders over Rs 2999
+        Express Free Shipping Always
       </Paragraph>
 
       <Button variant="contained" size="large" color="dark" href="/products">
