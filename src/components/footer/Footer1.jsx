@@ -173,6 +173,10 @@ const customerCareLinks = [
     name: "Returns & Refunds",
     url: "/refund-and-returns-policy",
   },
+  {
+    name: "Get in touch",
+    url: "/contact-us",
+  },
 ];
 const iconList = [
   {
