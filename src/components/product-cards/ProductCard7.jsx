@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Add, Close, Remove } from "@mui/icons-material";
-import { Button, Card, IconButton, styled } from "@mui/material";
+import { Box, Button, Card, IconButton, styled } from "@mui/material";
 import Image from "components/BazaarImage";
 import { Span } from "components/Typography";
 import { FlexBox } from "components/flex-box";
 import { useAppContext } from "contexts/AppContext";
-import { currency } from "lib";
+import { calculateDiscount, currency } from "lib";
 
 // styled components
 const Wrapper = styled(Card)(({ theme }) => ({
@@ -30,7 +30,7 @@ const Wrapper = styled(Card)(({ theme }) => ({
 
 // =========================================================
 
-const ProductCard7 = ({ id, name, qty, price, imgUrl, slug }) => {
+const ProductCard7 = ({ id, name, qty, price, imgUrl, slug, discount = null }) => {
   const { dispatch } = useAppContext();
   // handle change cart
   const handleCartAmountChange = (amount) => () => {
@@ -43,6 +43,7 @@ const ProductCard7 = ({ id, name, qty, price, imgUrl, slug }) => {
         imgUrl,
         qty: amount,
         slug,
+        discount,
       },
     });
   };
@@ -77,12 +78,23 @@ const ProductCard7 = ({ id, name, qty, price, imgUrl, slug }) => {
 
         <FlexBox gap={1} flexWrap="wrap" alignItems="center">
           <Span color="grey.600">
-            {currency(price)} x {qty}
+            {discount ? calculateDiscount(price, discount) : currency(price)} x{" "}
+            {qty}
           </Span>
 
-          <Span fontWeight={600} color="primary.main">
-            {currency(price * qty)}
-          </Span>
+          <FlexBox fontWeight={600} color="primary.main" gap={1}>
+            <Box fontWeight="600" color="primary.main">
+              {discount
+                ? calculateDiscount(price * qty, discount)
+                : currency(price * qty)}
+            </Box>
+
+            {discount && (
+              <Box color="grey.600" fontWeight="600">
+                <del>{currency(price * qty)}</del>
+              </Box>
+            )}
+          </FlexBox>
         </FlexBox>
 
         <FlexBox alignItems="center">

@@ -11,12 +11,17 @@ const PaymentSummary = () => {
   const { state, dispatch } = useAppContext();
   const cartList = state.cart;
 
-  const getSubtotalPrice = () => {
-    return cartList.reduce((accum, item) => accum + item.price * item.qty, 0);
+  const getSubTotalPrice = () => {
+    return cartList.reduce((accum, item) => {
+      const price = item?.discount
+        ? Number((item.price - item.price * (item.discount / 100)).toFixed(2))
+        : item.price;
+      return accum + price * item.qty;
+    }, 0);
   };
 
   const getTotalPrice = () => {
-    return getSubtotalPrice() + shippingCost;
+    return getSubTotalPrice() + shippingCost;
   };
 
   return (
@@ -24,7 +29,7 @@ const PaymentSummary = () => {
       <FlexBetween mb={1}>
         <Paragraph color="grey.600">Subtotal:</Paragraph>
         <Paragraph fontSize={18} fontWeight={600} lineHeight={1}>
-          {currency(getSubtotalPrice())}
+          {currency(getSubTotalPrice())}
         </Paragraph>
       </FlexBetween>
 

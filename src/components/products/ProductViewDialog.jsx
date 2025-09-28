@@ -15,7 +15,7 @@ import BazaarRating from "components/BazaarRating";
 import Carousel from "components/carousel/Carousel";
 import { H1, H2, H3, H6, Paragraph } from "components/Typography";
 import { useAppContext } from "contexts/AppContext";
-import { currency } from "lib";
+import { calculateDiscount, currency } from "lib";
 import { urlForImage } from "../../../sanity/lib/image";
 
 // styled components
@@ -146,7 +146,21 @@ const ProductViewDialog = (props) => {
                     "CATEGORY: " + product.categories[0].name}
                 </Paragraph>
 
-                <H1 color="primary.main">{currency(product.price)}</H1>
+                <FlexBox alignItems="center" gap={1} mt={0.5}>
+                  <Box fontWeight="600" color="primary.main">
+                    <H1 fontWeight={700} py={0.5}>
+                      {product?.discount
+                        ? calculateDiscount(product?.price, product?.discount)
+                        : currency(product?.price)}
+                    </H1>
+                  </Box>
+
+                  {product?.discount && (
+                    <Box color="grey.600" fontWeight="600">
+                      <del>{currency(product?.price)}</del>
+                    </Box>
+                  )}
+                </FlexBox>
 
                 {/* <FlexBox alignItems="center" gap={1}>
                   <BazaarRating
@@ -160,7 +174,7 @@ const ProductViewDialog = (props) => {
 
                 <Paragraph my={2}>{product.description}</Paragraph>
               </div>
-              <div>
+              {/* <div>
                 <Divider
                   sx={{
                     mb: 2,
@@ -211,7 +225,7 @@ const ProductViewDialog = (props) => {
                     </Button>
                   </FlexBox>
                 )}
-              </div>
+              </div> */}
             </Grid>
           </Grid>
         </ContentWrapper>

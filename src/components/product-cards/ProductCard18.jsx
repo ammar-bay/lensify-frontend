@@ -1,11 +1,11 @@
 import { AddShoppingCart, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { Box, Button, IconButton, Rating, styled } from "@mui/material";
-import { FlexRowCenter } from "components/flex-box";
+import { FlexBox, FlexRowCenter } from "components/flex-box";
 import LazyImage from "components/LazyImage";
 import ProductViewDialog from "components/products/ProductViewDialog";
 import { H4, Paragraph } from "components/Typography";
 import { useAppContext } from "contexts/AppContext";
-import { currency } from "lib";
+import { calculateDiscount, currency } from "lib";
 import Link from "next/link";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
@@ -104,12 +104,12 @@ const ProductCard18 = ({ product }) => {
           />
         </Link>
 
-        <AddToCartButton
+        {/* <AddToCartButton
           className="product-actions"
           onClick={handleAddToCart(product)}
         >
           <AddShoppingCart color="disabled" fontSize="small" />
-        </AddToCartButton>
+        </AddToCartButton> */}
 
         {/* <FavouriteButton className="product-actions" onClick={handleFavorite}>
           {isFavorite ? (
@@ -142,6 +142,7 @@ const ProductCard18 = ({ product }) => {
           imgGroup: product.images,
           description: product.description,
           categories: product.categories,
+          discount: product.discount,
         }}
       />
 
@@ -150,9 +151,27 @@ const ProductCard18 = ({ product }) => {
           <Small color="grey.500">{product.categories[0].name}</Small>
         )} */}
         <Paragraph fontWeight="bold">{product.name}</Paragraph>
-        <H4 fontWeight={700} py={0.5}>
+        {/* <H4 fontWeight={700} py={0.5}>
           {currency(product.price)}
-        </H4>
+        </H4> */}
+        <Box flexDirection={"column"} alignItems="center" gap={1} mt={0.5}>
+          <Box
+            fontWeight="600"
+            color={product?.discount ? "primary.main" : "text.primary"}
+          >
+            <H4 fontWeight={700} py={0.5}>
+              {product?.discount
+                ? calculateDiscount(product?.price, product?.discount)
+                : currency(product?.price)}
+            </H4>
+          </Box>
+
+          {product?.discount && (
+            <Box color="grey.600" fontWeight="600">
+              <del>{currency(product?.price)}</del>
+            </Box>
+          )}
+        </Box>
 
         {/* <FlexRowCenter gap={1}>
           <Rating

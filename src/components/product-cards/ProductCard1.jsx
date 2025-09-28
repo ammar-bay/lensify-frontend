@@ -192,7 +192,7 @@ const ProductCard1 = ({
             </FlexBox>
           </Box>
 
-          <FlexBox
+          {/* <FlexBox
             width="30px"
             alignItems="center"
             className="add-cart"
@@ -245,7 +245,7 @@ const ProductCard1 = ({
                 </Button>
               </Fragment>
             )}
-          </FlexBox>
+          </FlexBox> */}
         </FlexBox>
       </ContentWrapper>
     </StyledBazaarCard>

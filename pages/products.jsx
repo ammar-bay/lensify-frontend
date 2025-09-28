@@ -39,11 +39,11 @@ const ProductSearchResult = ({ products }) => {
     ...new Set(products.map((p) => p.brand?.name).filter(Boolean)),
   ];
   const colorList = [
-    ...new Set(
+    ...new Map(
       products
-        .map((p) => ({ name: p.color?.name, hexa: p.color?.hexa }))
-        .filter(Boolean)
-    ),
+        .filter((p) => p.color?.name) // remove null/undefined colors
+        .map((p) => [p.color.name, { name: p.color.name, hexa: p.color.hexa }])
+    ).values(),
   ];
 
   const { state, dispatch } = useAppContext();
