@@ -16,6 +16,7 @@ export const mainCarouselData = [
   },
 ];
 
+
 // categories
 export const categories = [
   {
@@ -77,8 +78,8 @@ export const serviceList = [
   {
     id: "5777f551-aca2-4b94-8e55-f170fbb52d25",
     icon: "Truck",
-    title: "Fast Delivery",
-    description: "Start from Rs 100 ",
+    title: "Free Delivery",
+    description: "Express Free Delivery",
   },
   {
     id: "7ba08a7d-9f00-43be-a632-7d2123f95109",
