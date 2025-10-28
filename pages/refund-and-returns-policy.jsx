@@ -17,4 +17,5 @@ const RefundAndReturnsPolicyPage = () => {
   );
 };
 
+
 export default RefundAndReturnsPolicyPage;
