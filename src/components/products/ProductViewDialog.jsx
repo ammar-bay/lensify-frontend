@@ -92,14 +92,12 @@ const ProductViewDialog = (props) => {
         <ContentWrapper>
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
-              <Carousel totalSlides={product.imgGroup.length} visibleSlides={1}>
+              <Carousel totalSlides={product?.imgGroup?.length} visibleSlides={1}>
                 {product.imgGroup.map((item, index) => (
                   <BazaarImage
                     key={index}
                     src={
-                      typeof item === "string"
-                        ? item
-                        : isValidSanityImage(item)
+                      isValidSanityImage(item)
                         ? urlForImage(item).url()
                         : "/placeholder.png" // or null
                     }
