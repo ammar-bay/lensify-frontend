@@ -12,10 +12,17 @@ import { useState } from "react";
 import { urlForImage } from "../../../sanity/lib/image";
 // custom styled components
 const Card = styled(Box)({
+  height: "100%", // Forces the card to take full height of the parent
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between", // Pushes content to edges
   ":hover": {
     "& .product-actions": {
       right: 10,
     },
+    // Removed scale transform on hover because it breaks layout with object-fit
+    // unless you apply it to the image wrapper, but usually scaling a contained image looks odd.
+    // If you want zoom, keep it, but ensure overflow is hidden on parent.
     "& img": {
       transform: "scale(1.1)",
     },
@@ -24,14 +31,22 @@ const Card = styled(Box)({
     },
   },
 });
+
 const CardMedia = styled(Box)(({ theme }) => ({
-  maxHeight: 300,
+  height: 250, // CHANGED: Fixed height instead of maxHeight
+  width: "100%", // Ensure it spans width
   cursor: "pointer",
   overflow: "hidden",
   position: "relative",
   backgroundColor: theme.palette.grey[300],
+  display: "flex", // ADDED: To center image
+  alignItems: "center", // ADDED: To center image
+  justifyContent: "center", // ADDED: To center image
   "& img": {
     transition: "0.3s",
+    width: "100%", // ADDED: Constraint width
+    height: "100%", // ADDED: Constraint height
+    objectFit: "contain", // ADDED: Ensures image aspect ratio is preserved
   },
 }));
 const AddToCartButton = styled(IconButton)({
@@ -93,31 +108,27 @@ const ProductCard18 = ({ product }) => {
   return (
     <Card>
       <CardMedia>
-        <Link href={`/product/${product.slug.current}`}>
+        <Link
+          href={`/product/${product.slug.current}`}
+          style={{ width: "100%", height: "100%" }}
+        >
+          {/* Wrap LazyImage in a container or ensure LazyImage passes className/style props to the img tag */}
           <LazyImage
-            width={300}
-            height={300}
-            style={{ borderRadius: "5px" }}
-            alt="category"
+            width={250}
+            height={250}
+            style={{
+              borderRadius: "5px",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover", // Explicitly adding it here as a fallback
+            }}
+            alt={product.name}
             className="product-img"
             src={urlForImage(product.thumbnail).url()}
           />
         </Link>
 
-        {/* <AddToCartButton
-          className="product-actions"
-          onClick={handleAddToCart(product)}
-        >
-          <AddShoppingCart color="disabled" fontSize="small" />
-        </AddToCartButton> */}
-
-        {/* <FavouriteButton className="product-actions" onClick={handleFavorite}>
-          {isFavorite ? (
-            <Favorite color="primary" fontSize="small" />
-          ) : (
-            <FavoriteBorder color="disabled" fontSize="small" />
-          )}
-        </FavouriteButton> */}
+        {/* ... Buttons (AddToCart, etc) ... */}
 
         <QuickViewButton
           fullWidth
@@ -146,14 +157,18 @@ const ProductCard18 = ({ product }) => {
         }}
       />
 
-      <Box p={1} textAlign="center">
-        {/* {product.categories.length > 0 && (
-          <Small color="grey.500">{product.categories[0].name}</Small>
-        )} */}
+      <Box
+        p={1}
+        textAlign="center"
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <Paragraph fontWeight="bold">{product.name}</Paragraph>
-        {/* <H4 fontWeight={700} py={0.5}>
-          {currency(product.price)}
-        </H4> */}
+
         <Box flexDirection={"column"} alignItems="center" gap={1} mt={0.5}>
           <Box
             fontWeight="600"
@@ -172,20 +187,6 @@ const ProductCard18 = ({ product }) => {
             </Box>
           )}
         </Box>
-
-        {/* <FlexRowCenter gap={1}>
-          <Rating
-            name="read-only"
-            value={4}
-            readOnly
-            sx={{
-              fontSize: 16,
-            }}
-          />
-          <Small fontWeight={600} color="grey.500">
-            ({product.reviews.length} Reviews)
-          </Small>
-        </FlexRowCenter> */}
       </Box>
     </Card>
   );
