@@ -93,7 +93,7 @@ const ProductViewDialog = (props) => {
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
               <Carousel totalSlides={product?.imgGroup?.length} visibleSlides={1}>
-                {product.imgGroup.map((item, index) => (
+                {product?.imgGroup && product?.imgGroup?.map((item, index) => (
                   <BazaarImage
                     key={index}
                     src={

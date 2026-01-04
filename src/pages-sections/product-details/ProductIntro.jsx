@@ -158,13 +158,14 @@ const ProductIntro = ({ product }) => {
         <Grid item md={6} xs={12} alignItems="center">
           {/* Wrap main image with swipe handler */}
           <Box justifyContent="center" mb={6} {...handlers}>
-            {isValidSanityImage(product.images[selectedImage]) ? (
+            {product?.images &&
+            isValidSanityImage(product?.images[selectedImage]) ? (
               <LazyImage
                 alt={title}
                 width={300}
                 height={300}
                 loading="eager"
-                src={urlForImage(product.images[selectedImage]).url()}
+                src={urlForImage(product?.images[selectedImage]).url()}
                 sx={{
                   objectFit: "contain",
                   borderRadius: "5px",
@@ -187,7 +188,7 @@ const ProductIntro = ({ product }) => {
 
           {/* Thumbnails */}
           <FlexBox overflow="auto">
-            {product.images.map((url, ind) => (
+            {product?.images && product?.images?.map((url, ind) => (
               <FlexRowCenter
                 key={ind}
                 width={64}
