@@ -72,6 +72,8 @@ const ProductViewDialog = (props) => {
       },
     });
   };
+  const isValidSanityImage = (img) =>
+    img?.asset?._ref && img?._type === "image";
   return (
     <Dialog
       open={openDialog}
@@ -95,7 +97,11 @@ const ProductViewDialog = (props) => {
                   <BazaarImage
                     key={index}
                     src={
-                      typeof item === "string" ? item : urlForImage(item).url()
+                      typeof item === "string"
+                        ? item
+                        : isValidSanityImage(item)
+                        ? urlForImage(item).url()
+                        : "/placeholder.png" // or null
                     }
                     sx={{
                       mx: "auto",
