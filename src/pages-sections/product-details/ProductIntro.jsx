@@ -131,12 +131,9 @@ const ProductIntro = ({ product }) => {
         qty: amount,
         name: title,
         discount,
-        imgUrl:
-          typeof thumbnail === "string"
-            ? thumbnail
-            : isValidSanityImage(thumbnail)
-            ? urlForImage(thumbnail).url()
-            : null,
+        imgUrl: isValidSanityImage(thumbnail)
+          ? urlForImage(thumbnail).url()
+          : null,
         id,
         slug: slug.current,
       },
@@ -161,23 +158,31 @@ const ProductIntro = ({ product }) => {
         <Grid item md={6} xs={12} alignItems="center">
           {/* Wrap main image with swipe handler */}
           <Box justifyContent="center" mb={6} {...handlers}>
-            <LazyImage
-              alt={title}
-              width={300}
-              height={300}
-              loading="eager"
-              src={
-                typeof product.images[selectedImage] === "string"
-                  ? product.images[selectedImage]
-                  : isValidSanityImage(product.images[selectedImage])
-                  ? urlForImage(product.images[selectedImage]).url()
-                  : null
-              }
-              sx={{
-                objectFit: "contain",
-                borderRadius: "5px",
-              }}
-            />
+            {isValidSanityImage(product.images[selectedImage]) ? (
+              <LazyImage
+                alt={title}
+                width={300}
+                height={300}
+                loading="eager"
+                src={urlForImage(product.images[selectedImage]).url()}
+                sx={{
+                  objectFit: "contain",
+                  borderRadius: "5px",
+                }}
+              />
+            ) : isValidSanityImage(thumbnail) ? (
+              <LazyImage
+                alt={title}
+                width={300}
+                height={300}
+                loading="eager"
+                src={urlForImage(thumbnail).url()}
+                sx={{
+                  objectFit: "contain",
+                  borderRadius: "5px",
+                }}
+              />
+            ) : null}
           </Box>
 
           {/* Thumbnails */}
@@ -200,13 +205,7 @@ const ProductIntro = ({ product }) => {
                 }
               >
                 <Avatar
-                  src={
-                    typeof url === "string"
-                      ? url
-                      : isValidSanityImage(url)
-                      ? urlForImage(url).url()
-                      : null
-                  }
+                  src={isValidSanityImage(url) ? urlForImage(url).url() : null}
                   alt={title}
                   variant="square"
                   sx={{
@@ -223,7 +222,7 @@ const ProductIntro = ({ product }) => {
           <H1 mb={1}>{title}</H1>
 
           {product?.brand?.name && (
-            <FlexBox alignItems="center" mb={1}>
+            <FlexBox alignItems="center" mb={1} gap={1}>
               <Box>Brand: </Box>
               <H6>{product?.brand?.name}</H6>
             </FlexBox>
