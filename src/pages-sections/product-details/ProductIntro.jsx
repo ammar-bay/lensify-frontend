@@ -43,6 +43,9 @@ const ProductIntro = ({ product }) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const isValidSanityImage = (img) =>
+    img?.asset?._ref && img?._type === "image";
+
   useEffect(() => {
     if (!state?.cart) return;
 
@@ -128,7 +131,12 @@ const ProductIntro = ({ product }) => {
         qty: amount,
         name: title,
         discount,
-        imgUrl: urlForImage(thumbnail).url(),
+        imgUrl:
+          typeof thumbnail === "string"
+            ? thumbnail
+            : isValidSanityImage(thumbnail)
+            ? urlForImage(thumbnail).url()
+            : null,
         id,
         slug: slug.current,
       },
@@ -158,7 +166,13 @@ const ProductIntro = ({ product }) => {
               width={300}
               height={300}
               loading="eager"
-              src={urlForImage(product.images[selectedImage]).url()}
+              src={
+                typeof product.images[selectedImage] === "string"
+                  ? product.images[selectedImage]
+                  : isValidSanityImage(product.images[selectedImage])
+                  ? urlForImage(product.images[selectedImage]).url()
+                  : null
+              }
               sx={{
                 objectFit: "contain",
                 borderRadius: "5px",
@@ -186,7 +200,14 @@ const ProductIntro = ({ product }) => {
                 }
               >
                 <Avatar
-                  src={urlForImage(url).url()}
+                  src={
+                    typeof url === "string"
+                      ? url
+                      : isValidSanityImage(url)
+                      ? urlForImage(url).url()
+                      : null
+                  }
+                  alt={title}
                   variant="square"
                   sx={{
                     height: 40,
