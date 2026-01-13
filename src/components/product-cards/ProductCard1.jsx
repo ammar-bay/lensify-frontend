@@ -12,6 +12,7 @@ import { useAppContext } from "contexts/AppContext";
 import ProductViewDialog from "components/products/ProductViewDialog";
 import { FlexBox } from "../flex-box";
 import { calculateDiscount, currency } from "lib";
+import { object } from "yup";
 
 // styled components
 const StyledBazaarCard = styled(BazaarCard)({
@@ -37,6 +38,7 @@ const ImageWrapper = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "block",
   },
+  height: "290px",
 }));
 const StyledChip = styled(Chip)({
   zIndex: 1,
@@ -135,6 +137,9 @@ const ProductCard1 = ({
             width={500}
             height={500}
             alt={title}
+            style={{
+              objectFit: "contain",
+            }}
           />
         </Link>
       </ImageWrapper>
